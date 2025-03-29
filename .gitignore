@@ -1,0 +1,79 @@
+# Dependencias
+node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+# Producción/Compilación
+build
+dist
+.next
+out
+.cache
+.turbo
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Archivos de entorno
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+.npmrc
+
+# Hardhat/Blockchain
+packages/contracts/artifacts
+packages/contracts/cache
+packages/contracts/typechain
+packages/contracts/coverage
+packages/contracts/coverage.json
+
+# Docker
+docker-compose.override.yml
+
+# Base de datos
+*.sqlite
+*.db
+mariadb_data
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.pem
+
+# IDE/Editores
+.idea
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.project
+.classpath
+*.launch
+.settings/
+
+# Archivos temporales
+*.tmp
+*.temp
+*.swp
+*~
+
+# Otros
+.vercel
+.netlify
+tsconfig.tsbuildinfo

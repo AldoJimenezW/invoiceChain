@@ -1,0 +1,87 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "globalEnv": [
+    "DATABASE_URL",
+    "SEPOLIA_URL",
+    "POLYGON_MUMBAI_URL",
+    "PRIVATE_KEY",
+    "DB_HOST",
+    "DB_PORT",
+    "DB_USER",
+    "DB_PASSWORD",
+    "DB_NAME"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build", "lint", "test"],
+      "inputs": ["$TURBO_DEFAULT", ".env*"],
+      "outputs": ["dist/**", ".next/**", "build/**", "!.next/cache/**"]
+    },
+    "compile": {
+      "dependsOn": ["^compile"],
+      "outputs": ["artifacts/**", "cache/**", "typechain/**"]
+    },
+    "db:migrate:dev": {
+      "cache": false
+    },
+    "db:migrate:deploy": {
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
+    },
+    "db:seed": {
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "deploy:contract": {
+      "dependsOn": ["compile"],
+      "cache": false
+    },
+    "docker:build": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "docker:up": {
+      "cache": false
+    },
+    "docker:down": {
+      "cache": false
+    },
+    "generate": {
+      "dependsOn": ["^generate"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"],
+      "outputs": []
+    },
+    "lint:fix": {
+      "dependsOn": ["^lint:fix"],
+      "outputs": []
+    },
+    "format": {
+      "dependsOn": ["^format"],
+      "outputs": []
+    },
+    "format:check": {
+      "dependsOn": ["^format:check"],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^test"],
+      "outputs": ["coverage/**"]
+    },
+    "test:coverage": {
+      "dependsOn": ["^test:coverage"],
+      "outputs": ["coverage/**"]
+    },
+    "ci": {
+      "dependsOn": ["lint", "format:check", "test", "build"],
+      "outputs": []
+    }
+  }
+}
