@@ -1,11 +1,20 @@
 import { createPool } from 'mysql2/promise';
 import dotenv from 'dotenv';
+import path from 'path';
 
-dotenv.config();
+// Carga el archivo .env desde la raíz del proyecto
+dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
+
+console.log('DB Connection Info:', {
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  database: process.env.DB_NAME,
+});
 
 export const pool = createPool({
   host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '3306'),
+  port: parseInt(process.env.DB_PORT || '3307'),
   user: process.env.DB_USER || 'user',
   password: process.env.DB_PASSWORD || 'password',
   database: process.env.DB_NAME || 'blockchain_db',

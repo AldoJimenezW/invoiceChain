@@ -46,6 +46,22 @@ check_dependency() {
   fi
 }
 
+run_migrations() {
+  print_step "Ejecutando migraciones"
+  cd apps/api
+  npx ts-node src/db/migrate.ts
+  cd ../..
+  print_message "Migraciones completadas"
+}
+
+run_seeds() {
+  print_step "Poblando base de datos"
+  cd apps/api
+  npx ts-node src/db/seed.ts
+  cd ../..
+  print_message "Base de datos poblada"
+}
+
 print_step "Verificando dependencias"
 check_dependency "node"
 check_dependency "npm"
@@ -77,9 +93,8 @@ if [[ "$1" == "--db" ]]; then
     print_message "Esperando a que la base de datos esté lista..."
     sleep 10
 
-    print_step "Ejecutando migraciones y seeds"
-    npx turbo run db:migrate:dev
-    npx turbo run db:seed
+    run_migrations
+    run_seeds
 
     print_message "Base de datos reiniciada y población completada."
 else
@@ -91,12 +106,48 @@ else
     print_message "Esperando a que la base de datos esté lista..."
     sleep 10
 
+    print_step "Verificando archivo .env"
+    if [ ! -f .env ]; then
+      print_warning "Archivo .env no encontrado. Creando uno desde la plantilla..."
+      cat > .env << EOL
+# Variables de entorno comunes
+DATABASE_URL=mysql://user:password@localhost:3307/blockchain_db
+
+# Variables para conexión a blockchain
+SEPOLIA_URL=https://sepolia.infura.io/v3/your-infura-key
+POLYGON_MUMBAI_URL=https://polygon-mumbai.infura.io/v3/your-infura-key
+PRIVATE_KEY=your-private-key-here
+
+# Variables para base de datos
+DB_HOST=localhost
+DB_PORT=3307
+DB_USER=user
+DB_PASSWORD=password
+DB_NAME=blockchain_db
+EOL
+      print_message "Archivo .env creado. Actualiza los valores según sea necesario."
+    fi
+
     print_step "Instalando dependencias"
     npm install
 
-    print_step "Configurando base de datos"
-    npx turbo run db:migrate:dev
-    npx turbo run db:seed
+    # Asegurarse de que la estructura de carpetas existe
+    mkdir -p apps/api/src/db
+    mkdir -p apps/api/src/routes
+
+    # Crear directorios para contratos si no existen
+    mkdir -p packages/contracts/contracts
+    mkdir -p packages/contracts/scripts
+
+    run_migrations
+    run_seeds
 
     print_message "✅ Setup finalizado, ahora puedes ejecutar 'npm run dev' para iniciar el servidor."
+    print_message "🌐 Adminer disponible en: http://localhost:8080"
+    print_message "🛢️ Datos de conexión a MariaDB:"
+    print_message "   - Host: localhost"
+    print_message "   - Puerto: 3307"
+    print_message "   - Usuario: user"
+    print_message "   - Contraseña: password"
+    print_message "   - Base de datos: blockchain_db"
 fi

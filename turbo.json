@@ -14,7 +14,7 @@
   ],
   "tasks": {
     "build": {
-      "dependsOn": ["^build", "lint", "test"],
+      "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT", ".env*"],
       "outputs": ["dist/**", ".next/**", "build/**", "!.next/cache/**"]
     },
@@ -23,12 +23,6 @@
       "outputs": ["artifacts/**", "cache/**", "typechain/**"]
     },
     "db:migrate:dev": {
-      "cache": false
-    },
-    "db:migrate:deploy": {
-      "cache": false
-    },
-    "db:push": {
       "cache": false
     },
     "db:seed": {
@@ -52,9 +46,6 @@
     "docker:down": {
       "cache": false
     },
-    "generate": {
-      "dependsOn": ["^generate"]
-    },
     "lint": {
       "dependsOn": ["^lint"],
       "outputs": []
@@ -74,14 +65,6 @@
     "test": {
       "dependsOn": ["^test"],
       "outputs": ["coverage/**"]
-    },
-    "test:coverage": {
-      "dependsOn": ["^test:coverage"],
-      "outputs": ["coverage/**"]
-    },
-    "ci": {
-      "dependsOn": ["lint", "format:check", "test", "build"],
-      "outputs": []
     }
   }
 }

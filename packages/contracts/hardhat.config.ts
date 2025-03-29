@@ -1,10 +1,19 @@
 import { HardhatUserConfig } from "hardhat/config";
-import "@nomiclabs/hardhat-waffle";
-import "@nomiclabs/hardhat-ethers";
-import "@typechain/hardhat";
+import "@nomicfoundation/hardhat-toolbox";
+import * as dotenv from "dotenv";
+
+dotenv.config({ path: "../../.env" });
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.20",
+  solidity: {
+    version: "0.8.20",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
+    }
+  },
   networks: {
     hardhat: {},
     sepolia: {
@@ -14,18 +23,14 @@ const config: HardhatUserConfig = {
     polygon_mumbai: {
       url: process.env.POLYGON_MUMBAI_URL || "",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-    },
+    }
   },
   paths: {
     artifacts: "./artifacts",
     cache: "./cache",
     sources: "./contracts",
     tests: "./test",
-  },
-  typechain: {
-    outDir: "typechain",
-    target: "ethers-v5",
-  },
+  }
 };
 
 export default config;

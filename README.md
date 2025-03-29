@@ -27,24 +27,118 @@ Para trabajar en este proyecto, necesitarás:
 
    Este script verificará tus dependencias, configurará el entorno y preparará todo para que puedas empezar a desarrollar.
 
+  Ahora puedes correr el proyecto con
+  ```bash
+  npm run dev
+  ```
+## En caso de que estes en windows
+
+1. Clona el repositorio
+
+2. ejecura el script de inicio
+    ```bash
+    start.bat
+    ```
+
+Ahora puedes correr el proyecto con
+```bash
+npm run dev
+```
+
+## Pull Request
+
+1. Formatear y lintear
+    ```bash
+    npm run format
+    npm run lint
+    ```
+
+2. Buildear el proyecto
+    ```bash
+    npm run build
+    ```
+
+3. Correr las pruebas // en caso de que no existan saltar este paso
+    ```bash
+    npm run test
+    ```
+
+4. En caso de pasar todos los pasos, subir los cambios a la branch y subir la pull request
+
 ## Estructura del proyecto
 
 ```
-mi-proyecto-blockchain/
-├── apps/
-│   ├── admin/         # Frontend de administradores (React)
-│   ├── web/           # Frontend de usuarios (React)
-│   └── api/           # Backend (Node.js)
-├── packages/
-│   ├── ui/            # Componentes compartidos
-│   ├── contracts/     # Contratos inteligentes (Solidity)
-│   ├── config/        # Configuraciones compartidas
-│   └── scripts/       # Scripts compartidos
-├── docker/
-│   ├── docker-compose.yml
-│   └── ...
-├── turbo.json
-└── package.json
+invoiceChain/
+├── .env                               # Variables de entorno
+├── .gitignore                         # Archivos a ignorar en Git
+├── docker/                            # Configuración de Docker
+│   └── docker-compose.yml             # Definición de servicios en Docker
+├── apps/                              # Aplicaciones del monorepo
+│   ├── api/                           # API backend
+│   │   ├── package.json               # Dependencias y scripts de la API
+│   │   ├── tsconfig.json              # Configuración de TypeScript
+│   │   └── src/                       # Código fuente de la API
+│   │       ├── index.ts               # Punto de entrada de la API
+│   │       ├── db/                    # Configuración de base de datos
+│   │       │   ├── schema.ts          # Definición de tablas y conexión
+│   │       │   ├── migrate.ts         # Script de migración
+│   │       │   └── seed.ts            # Script para poblar con datos iniciales
+│   │       ├── routes/                # Rutas de la API
+│   │       │   ├── users.ts           # Rutas para usuarios
+│   │       │   ├── invoices.ts        # Rutas para facturas
+│   │       │   └── transactions.ts    # Rutas para transacciones
+│   │       └── entity/                # Definiciones de entidades
+│   │           ├── User.ts            # Entidad de usuario
+│   │           ├── Invoice.ts         # Entidad de factura
+│   │           └── Transaction.ts     # Entidad de transacción
+│   ├── web/                           # Frontend para usuarios
+│   │   ├── package.json               # Dependencias del frontend de usuarios
+│   │   ├── tsconfig.json              # Configuración TypeScript
+│   │   ├── vite.config.ts             # Configuración de Vite
+│   │   ├── index.html                 # HTML base
+│   │   └── src/                       # Código fuente
+│   │       ├── main.tsx               # Punto de entrada
+│   │       ├── App.tsx                # Componente principal
+│   │       ├── components/            # Componentes reutilizables
+│   │       ├── pages/                 # Páginas de la aplicación
+│   │       ├── hooks/                 # Hooks personalizados
+│   │       ├── services/              # Servicios (API, blockchain)
+│   │       └── assets/                # Imágenes, estilos, etc.
+│   └── admin/                         # Frontend para administradores
+│       ├── package.json               # Dependencias del frontend de admin
+│       ├── tsconfig.json              # Configuración TypeScript
+│       ├── vite.config.ts             # Configuración de Vite
+│       ├── index.html                 # HTML base
+│       └── src/                       # Código fuente
+│           ├── main.tsx               # Punto de entrada
+│           ├── App.tsx                # Componente principal
+│           ├── components/            # Componentes reutilizables
+│           ├── pages/                 # Páginas de administración
+│           ├── hooks/                 # Hooks personalizados
+│           ├── services/              # Servicios (API, blockchain)
+│           └── assets/                # Imágenes, estilos, etc.
+├── packages/                          # Paquetes compartidos o módulos
+│   ├── ui/                            # Componentes de UI compartidos
+│   │   ├── package.json               # Dependencias del paquete UI
+│   │   ├── tsconfig.json              # Configuración TypeScript
+│   │   └── src/                       # Componentes compartidos
+│   │       ├── Button/                # Componente Button
+│   │       ├── Card/                  # Componente Card
+│   │       ├── Input/                 # Componente Input
+│   │       └── index.ts               # Exportaciones
+│   └── contracts/                     # Contratos inteligentes
+│       ├── package.json               # Dependencias para contratos
+│       ├── hardhat.config.ts          # Configuración de Hardhat
+│       ├── contracts/                 # Directorio para tus contratos Solidity
+│       │   ├── InvoiceContract.sol    # Contrato principal de facturas
+│       │   └── PaymentToken.sol       # Contrato de token de pago
+│       ├── scripts/                   # Scripts de despliegue
+│       │   └── deploy.ts              # Script de despliegue
+│       └── test/                      # Pruebas de contratos
+│           └── InvoiceContract.test.ts # Tests del contrato de facturas
+├── package.json                       # Dependencias y scripts del monorepo
+├── turbo.json                         # Configuración de Turborepo
+└── start.sh                           # Script de inicialización
 ```
 
 ## Flujo de trabajo
