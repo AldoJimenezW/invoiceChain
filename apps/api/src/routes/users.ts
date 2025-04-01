@@ -1,11 +1,13 @@
 import express from 'express';
 import { pool } from '../db/schema';
+import { ResultSetHeader } from 'mysql2';
+import { User } from '../types/db';
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const [rows] = await pool.query(
+    const [rows] = await pool.query<User[]>(
       'SELECT id, username, email, wallet_address, is_admin, is_active, created_at FROM users'
     );
     res.json(rows);
@@ -17,12 +19,12 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const [rows] = await pool.query(
+    const [rows] = await pool.query<User[]>(
       'SELECT id, username, email, wallet_address, is_admin, is_active, created_at FROM users WHERE id = ?',
       [req.params.id]
     );
 
-    if (Array.isArray(rows) && rows.length === 0) {
+    if (rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
 
@@ -41,13 +43,13 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    const [result] = await pool.query(
+    const [result] = await pool.query<ResultSetHeader>(
       'INSERT INTO users (username, email, wallet_address, is_admin) VALUES (?, ?, ?, ?)',
       [username, email, walletAddress, isAdmin || false]
     );
 
     res.status(201).json({
-      id: (result as any).insertId,
+      id: result.insertId,
       username,
       email,
       walletAddress,
@@ -78,9 +80,11 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const [result] = await pool.query('DELETE FROM users WHERE id = ?', [req.params.id]);
+    const [result] = await pool.query<ResultSetHeader>('DELETE FROM users WHERE id = ?', [
+      req.params.id,
+    ]);
 
-    if ((result as any).affectedRows === 0) {
+    if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
 

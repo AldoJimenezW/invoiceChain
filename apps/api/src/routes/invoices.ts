@@ -1,11 +1,13 @@
 import express from 'express';
 import { pool } from '../db/schema';
+import { ResultSetHeader } from 'mysql2';
+import { Invoice } from '../types/db';
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const [rows] = await pool.query(`
+    const [rows] = await pool.query<Invoice[]>(`
       SELECT i.*, u.username, u.email, u.wallet_address
       FROM invoices i
       JOIN users u ON i.user_id = u.id
@@ -19,7 +21,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const [rows] = await pool.query(
+    const [rows] = await pool.query<Invoice[]>(
       `
       SELECT i.*, u.username, u.email, u.wallet_address
       FROM invoices i
@@ -29,7 +31,7 @@ router.get('/:id', async (req, res) => {
       [req.params.id]
     );
 
-    if (Array.isArray(rows) && rows.length === 0) {
+    if (rows.length === 0) {
       return res.status(404).json({ error: 'Invoice not found' });
     }
 
@@ -49,15 +51,15 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    const [result] = await pool.query(
-      `INSERT INTO invoices
-       (invoice_number, user_id, client_name, amount, status, due_date, contract_address, tx_hash)
+    const [result] = await pool.query<ResultSetHeader>(
+      `INSERT INTO invoices 
+       (invoice_number, user_id, client_name, amount, status, due_date, contract_address, tx_hash) 
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [invoiceNumber, userId, clientName, amount, status, dueDate, contractAddress, txHash]
     );
 
     res.status(201).json({
-      id: (result as any).insertId,
+      id: result.insertId,
       invoiceNumber,
       userId,
       clientName,
@@ -80,9 +82,9 @@ router.put('/:id', async (req, res) => {
 
   try {
     await pool.query(
-      `UPDATE invoices
-       SET invoice_number = ?, user_id = ?, client_name = ?, amount = ?,
-           status = ?, due_date = ?, contract_address = ?, tx_hash = ?
+      `UPDATE invoices 
+       SET invoice_number = ?, user_id = ?, client_name = ?, amount = ?, 
+           status = ?, due_date = ?, contract_address = ?, tx_hash = ? 
        WHERE id = ?`,
       [
         invoiceNumber,
@@ -116,9 +118,11 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const [result] = await pool.query('DELETE FROM invoices WHERE id = ?', [req.params.id]);
+    const [result] = await pool.query<ResultSetHeader>('DELETE FROM invoices WHERE id = ?', [
+      req.params.id,
+    ]);
 
-    if ((result as any).affectedRows === 0) {
+    if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Invoice not found' });
     }
 

@@ -1,6 +1,7 @@
 import { createPool } from 'mysql2/promise';
 import dotenv from 'dotenv';
 import path from 'path';
+import { CountResult } from '../types/db';
 
 // Carga el archivo .env desde la raíz del proyecto
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
@@ -78,15 +79,15 @@ export async function initDb() {
 export async function seedDb() {
   const connection = await pool.getConnection();
   try {
-    // Check if users table is empty
-    const [users] = await connection.query('SELECT COUNT(*) as count FROM users');
-    const userCount = (users as any)[0].count;
+    // Verificar si ya hay datos
+    const [rows] = await connection.query<CountResult[]>('SELECT COUNT(*) as count FROM users');
+    const userCount = rows[0].count;
 
     if (userCount === 0) {
       // Seed users
       await connection.query(`
-        INSERT INTO users (username, email, wallet_address, is_admin)
-        VALUES
+        INSERT INTO users (username, email, wallet_address, is_admin) 
+        VALUES 
           ('admin', 'admin@example.com', '0x1234567890123456789012345678901234567890', TRUE),
           ('user1', 'user1@example.com', '0x2345678901234567890123456789012345678901', FALSE),
           ('user2', 'user2@example.com', '0x3456789012345678901234567890123456789012', FALSE)
@@ -94,8 +95,8 @@ export async function seedDb() {
 
       // Seed transactions
       await connection.query(`
-        INSERT INTO transactions (tx_hash, from_address, to_address, amount, status)
-        VALUES
+        INSERT INTO transactions (tx_hash, from_address, to_address, amount, status) 
+        VALUES 
           ('0xabc123', '0x1234567890123456789012345678901234567890', '0x2345678901234567890123456789012345678901', 1.5, 'COMPLETED'),
           ('0xdef456', '0x2345678901234567890123456789012345678901', '0x3456789012345678901234567890123456789012', 2.25, 'COMPLETED'),
           ('0xghi789', '0x3456789012345678901234567890123456789012', '0x1234567890123456789012345678901234567890', 3.75, 'PENDING')
@@ -103,8 +104,8 @@ export async function seedDb() {
 
       // Seed invoices
       await connection.query(`
-        INSERT INTO invoices (invoice_number, user_id, client_name, amount, status, due_date)
-        VALUES
+        INSERT INTO invoices (invoice_number, user_id, client_name, amount, status, due_date) 
+        VALUES 
           ('INV-2025-001', 1, 'Client A', 1500.00, 'PAID', '2025-04-15'),
           ('INV-2025-002', 2, 'Client B', 2200.50, 'PENDING', '2025-04-30'),
           ('INV-2025-003', 3, 'Client C', 3750.75, 'OVERDUE', '2025-03-15')

@@ -1,11 +1,13 @@
 import express from 'express';
 import { pool } from '../db/schema';
+import { ResultSetHeader } from 'mysql2';
+import { Transaction } from '../types/db';
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT * FROM transactions');
+    const [rows] = await pool.query<Transaction[]>('SELECT * FROM transactions');
     res.json(rows);
   } catch (error) {
     console.error('Error fetching transactions:', error);
@@ -15,9 +17,11 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT * FROM transactions WHERE id = ?', [req.params.id]);
+    const [rows] = await pool.query<Transaction[]>('SELECT * FROM transactions WHERE id = ?', [
+      req.params.id,
+    ]);
 
-    if (Array.isArray(rows) && rows.length === 0) {
+    if (rows.length === 0) {
       return res.status(404).json({ error: 'Transaction not found' });
     }
 
@@ -36,13 +40,13 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    const [result] = await pool.query(
+    const [result] = await pool.query<ResultSetHeader>(
       'INSERT INTO transactions (tx_hash, from_address, to_address, amount, status) VALUES (?, ?, ?, ?, ?)',
       [txHash, fromAddress, toAddress, amount, status]
     );
 
     res.status(201).json({
-      id: (result as any).insertId,
+      id: result.insertId,
       txHash,
       fromAddress,
       toAddress,
@@ -81,9 +85,11 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const [result] = await pool.query('DELETE FROM transactions WHERE id = ?', [req.params.id]);
+    const [result] = await pool.query<ResultSetHeader>('DELETE FROM transactions WHERE id = ?', [
+      req.params.id,
+    ]);
 
-    if ((result as any).affectedRows === 0) {
+    if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Transaction not found' });
     }
 
