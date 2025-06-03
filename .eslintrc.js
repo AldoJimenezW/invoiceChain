@@ -25,4 +25,4 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'error',
   },
   ignorePatterns: ['dist', 'build', 'node_modules', '.turbo', '.next', 'out', 'coverage'],
-};
+}; 
