@@ -36,22 +36,26 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { username, email, walletAddress, isAdmin } = req.body;
+  const { name, lastName, age, profession, email, phone, password, walletAddress, isAdmin } = req.body;
 
-  if (!username || !email || !walletAddress) {
-    return res.status(400).json({ error: 'Username, email and wallet address are required' });
+  if (!name || !lastName || !age || !email || !password) {
+    return res.status(400).json({ error: 'Required fields are missing' });
   }
 
   try {
     const [result] = await pool.query<ResultSetHeader>(
-      'INSERT INTO users (username, email, wallet_address, is_admin) VALUES (?, ?, ?, ?)',
-      [username, email, walletAddress, isAdmin || false]
+      'INSERT INTO users (name, last_name, age, profession, email, phone, password_hash, wallet_address, is_admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [name, lastName, age, profession, email, phone, password, walletAddress, isAdmin || false]
     );
 
     res.status(201).json({
       id: result.insertId,
-      username,
+      name,
+      lastName,
+      age,
+      profession,
       email,
+      phone,
       walletAddress,
       isAdmin: isAdmin || false,
     });
