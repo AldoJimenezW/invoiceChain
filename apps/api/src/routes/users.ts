@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const [rows] = await pool.query<User[]>(
-      'SELECT id, username, email, wallet_address, is_admin, is_active, created_at FROM users'
+      'SELECT id, name, last_name, email, wallet_address, is_admin, is_active, created_at FROM users'
     );
     res.json(rows);
   } catch (error) {
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const [rows] = await pool.query<User[]>(
-      'SELECT id, username, email, wallet_address, is_admin, is_active, created_at FROM users WHERE id = ?',
+      'SELECT id, name, last_name, email, wallet_address, is_admin, is_active, created_at FROM users WHERE id = ?',
       [req.params.id]
     );
 
@@ -66,16 +66,24 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  const { username, email, walletAddress, isAdmin, isActive } = req.body;
+  const { name, lastName, email, walletAddress, isAdmin, isActive } = req.body;
   const userId = req.params.id;
 
   try {
     await pool.query(
-      'UPDATE users SET username = ?, email = ?, wallet_address = ?, is_admin = ?, is_active = ? WHERE id = ?',
-      [username, email, walletAddress, isAdmin, isActive, userId]
+      'UPDATE users SET name = ?, last_name = ?, email = ?, wallet_address = ?, is_admin = ?, is_active = ? WHERE id = ?',
+      [name, lastName, email, walletAddress, isAdmin, isActive, userId]
     );
 
-    res.json({ id: userId, username, email, walletAddress, isAdmin, isActive });
+    res.json({ 
+      id: userId, 
+      name, 
+      lastName, 
+      email, 
+      walletAddress, 
+      isAdmin, 
+      isActive 
+    });
   } catch (error) {
     console.error('Error updating user:', error);
     res.status(500).json({ error: 'Error updating user' });

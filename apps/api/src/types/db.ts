@@ -36,7 +36,8 @@ export interface Invoice extends RowDataPacket {
   created_at: Date;
   contract_address?: string;
   tx_hash?: string;
-  username?: string;
+  name?: string;
+  last_name?: string;
   email?: string;
   wallet_address?: string;
 }

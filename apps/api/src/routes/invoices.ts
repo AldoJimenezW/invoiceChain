@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const [rows] = await pool.query<Invoice[]>(`
-      SELECT i.*, u.username, u.email, u.wallet_address
+      SELECT i.*, u.name, u.last_name, u.email, u.wallet_address
       FROM invoices i
       JOIN users u ON i.user_id = u.id
     `);
@@ -23,7 +23,7 @@ router.get('/:id', async (req, res) => {
   try {
     const [rows] = await pool.query<Invoice[]>(
       `
-      SELECT i.*, u.username, u.email, u.wallet_address
+      SELECT i.*, u.name, u.last_name, u.email, u.wallet_address
       FROM invoices i
       JOIN users u ON i.user_id = u.id
       WHERE i.id = ?
