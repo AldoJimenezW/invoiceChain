@@ -12,18 +12,15 @@ import { EmblaOptionsType } from 'embla-carousel'
 import { Star } from 'lucide-react';
 
 export default function Dashboard() {
-  const [user] = useState({
-    name: 'Jane Doe',
-    email: 'jane@example.com',
-    joinedDate: 'March 2023',
-  })
-  const [bestRatedUsers, setBestRatedUsers] = useState<{ id: number, pic: string, name: string, rating: number }[]>([])
+  const [bestRatedUsers, setBestRatedUsers] = useState<{ id: number, pic: string, name: string, rating: number, profession: string, biography: string, }[]>([])
   const OPTIONS: EmblaOptionsType = { loop: true }
 
   useEffect(() => {
     const fetchTopUsers = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/top-users/3`)
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/top-users/5`, {
+          credentials: 'include',
+        })
         if (!res.ok) throw new Error('Failed to fetch')
         const data = await res.json()
         console.log(data)
@@ -49,7 +46,7 @@ export default function Dashboard() {
 
   const cardSlides = cards.map((card) => (
     <Card key={card.id} className='bg-black/60 border-none backdrop-blur-xl'>
-      <CardContent className='flex items-center px-16 h-80 w-240 gap-x-6'>
+      <CardContent className='flex items-center px-16 h-64 w-220 gap-x-6'>
         <Avatar className='h-64 w-64 mr-4'>
           <AvatarImage src={card.image} alt="image" />
           <AvatarFallback className='bg-blue-100 text-blue-700'>
@@ -78,17 +75,20 @@ export default function Dashboard() {
       <div className="w-screen relative left-1/2 right-1/2 -mx-[50vw]" >
         <EmblaCarousel slides={cardSlides} options={OPTIONS} />
       </div>
-      <div className='container mx-auto py-8 '>
+      <div className='container mx-auto '>
         {/* Best Rated Section */}
         <section >
           <h2 className='text-4xl font-bold text-white mb-4'>Best Rated</h2>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4'>
             {bestRatedUsers.map((user) => (
-              <Card key={user.id} className='bg-black/60 border-none backdrop-blur-xl'>
-                <CardContent className='flex items-center p-4'>
-                  <Avatar className='h-12 w-12 mr-4'>
+              <Card
+                key={user.id}
+                className="w-full max-w-sm mx-auto p-6 rounded-3xl shadow-xl border border-white/10 backdrop-blur-md bg-white/20"
+              >
+                <div className="flex flex-col items-center text-center space-y-4">
+                  <Avatar className="w-24 h-24 ring-4 ring-white shadow-lg">
                     <AvatarImage src={user.pic} alt={user.name} />
-                    <AvatarFallback className='bg-blue-100 text-blue-700'>
+                    <AvatarFallback className="bg-blue-200 text-white text-xl font-bold">
                       {user.name
                         .split(' ')
                         .map((n) => n[0])
@@ -96,15 +96,31 @@ export default function Dashboard() {
                         .toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
+
                   <div>
-                    <p className='font-medium text-white'>{user.name}</p>
-                    <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                      <span className="ml-2 text-sm text-white">{user.rating}/5</span>
-                    </div>
+                    <p className="text-lg font-bold text-white drop-shadow">{user.name}</p>
+                    <p className="text-sm text-blue-100">{user.profession}</p>
                   </div>
-                </CardContent>
+
+                  <div className="flex items-center space-x-1 text-yellow-300">
+                    <Star className="w-5 h-5 fill-yellow-300" />
+                    <span className="text-sm font-medium">{user.rating}/5</span>
+                  </div>
+
+                  <p
+                    className="
+        text-sm text-white/90 max-w-xs
+        line-clamp-4
+        overflow-hidden
+      "
+                    style={{ maxHeight: '5.5rem' }}
+                  >
+                    {user.biography}
+                  </p>
+                </div>
               </Card>
+
+
             ))}
           </div>
         </section >

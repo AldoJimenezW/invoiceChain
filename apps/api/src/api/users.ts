@@ -150,6 +150,7 @@ router.delete('/:id', async (req, res) => {
 
 router.get('/top-users/:count', async (req, res) => {
   const session = await verifySession(req, res);
+  console.log(session)
   if (!session) return;
 
   const count = parseInt(req.params.count, 10);

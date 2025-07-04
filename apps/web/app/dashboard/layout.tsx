@@ -150,7 +150,7 @@ export default function DashboardLayout({
                     : 'text-gray-600 hover:text-indigo-600 hover:bg-blue-400'
                     }`}
                 >
-                  <User color="#ffffff" className='h-40 w-40 ' />
+                  <User color="#ffffff" className='h-0 w-40 ' />
                   <span className='sr-only'>Toggle user menu</span>
                 </Button>
               </DropdownMenuTrigger>
