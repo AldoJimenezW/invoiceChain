@@ -132,7 +132,7 @@ export default function ChangePassword() {
   return (
     <div className='max-w-4xl mx-auto'>
       <div className='flex justify-between items-center mb-6'>
-        <h1 className='text-2xl font-bold text-gray-800'>Change Password</h1>
+        <h1 className='text-2xl font-bold text-white'>Change Password</h1>
         <Link href='/dashboard/profile'>
           <Button variant='outline' size='sm' className='border-indigo-200'>
             Cancel
@@ -249,12 +249,12 @@ export default function ChangePassword() {
                             passwordStrength === 0
                               ? 'text-gray-500'
                               : passwordStrength <= 25
-                              ? 'text-red-500'
-                              : passwordStrength <= 50
-                              ? 'text-yellow-500'
-                              : passwordStrength <= 75
-                              ? 'text-blue-500'
-                              : 'text-green-500'
+                                ? 'text-red-500'
+                                : passwordStrength <= 50
+                                  ? 'text-yellow-500'
+                                  : passwordStrength <= 75
+                                    ? 'text-blue-500'
+                                    : 'text-green-500'
                           }
                         >
                           {getStrengthLabel(passwordStrength)}

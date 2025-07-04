@@ -216,7 +216,7 @@ body {
   height: 3.6rem;
   z-index: 1;
   border-radius: 50%;
-  color: var(--text-body);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;

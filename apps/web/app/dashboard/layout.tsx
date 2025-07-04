@@ -72,25 +72,24 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className='min-h-screen bg-gradient-to-b from-indigo-50 to-white flex flex-col'>
-      <header className='border-b border-indigo-100 bg-white sticky top-0 z-10'>
+    <div className='min-h-screen bg-[url("/bg.jpg")] bg-cover bg-center bg-fixed flex flex-col'>
+      <header className='border-b border-bg-blue-700 bg-black/20 backdrop-blur-md backdrop-blur-sm sticky top-0 z-10'>
         <div className='container mx-auto px-4 py-3 flex items-center justify-between'>
           <div className='flex items-center space-x-2'>
             <Link href='/dashboard' className='flex items-center space-x-2'>
-              <Home className='h-6 w-6 text-blue-500' />
-              <div className="text-2xl font-bold text-blue-700 tracking-wide">
-                in
-                <span className="text-blue-500">Voice</span>Chain
+              <Home className='h-8 w-8 text-[#09d4d5]' />
+              <div className="text-3xl font-extrabold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-[#09d4d5] via-[#f538ff] to-[#f538ff] animate-gradient-x bg-[length:200%_200%]">
+                inVoiceChain
               </div>
             </Link>
           </div>
           <div className='flex-1 flex justify-center px-4'>
-            <div className='relative w-full max-w-md'>
+            <div className='relative w-full max-w-2xl bg-white rounded-md'>
               <Search className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500' />
               <Input
                 type='text'
                 placeholder='Search...'
-                className='pl-10 pr-2 py-2 rounded-md border border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm w-full' // Adjusted pl, py, and w-full
+                className='pl-10 pr-2 py-2 rounded-md border border-gray-300 focus:border-bg-blue-700 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm w-full' // Adjusted pl, py, and w-full
               />
             </div>
           </div>
@@ -125,8 +124,8 @@ export default function DashboardLayout({
                       key={item.href}
                       href={item.href}
                       className={`flex items-center space-x-1 ml-4 relative ${isActive(item.href)
-                        ? 'text-indigo-700 font-medium'
-                        : 'text-gray-600 hover:text-indigo-600'
+                        ? 'text-blue-700 font-medium'
+                        : 'text-gray-600 hover:text-blue-700'
                         }`}
                     >
                       <item.icon className='h-4 w-4' />
@@ -148,10 +147,10 @@ export default function DashboardLayout({
                   size='icon'
                   className={`rounded-full ${isActive('/dashboard/profile') || isActive('/dashboard/change-password')
                     ? 'text-indigo-700 font-medium'
-                    : 'text-gray-600 hover:text-indigo-600'
+                    : 'text-gray-600 hover:text-indigo-600 hover:bg-blue-400'
                     }`}
                 >
-                  <User className='h-5 w-5' />
+                  <User color="#ffffff" className='h-40 w-40 ' />
                   <span className='sr-only'>Toggle user menu</span>
                 </Button>
               </DropdownMenuTrigger>

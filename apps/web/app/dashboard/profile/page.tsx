@@ -46,7 +46,7 @@ export default function Profile() {
   return (
     <div className='max-w-4xl mx-auto'>
       <div className='flex justify-between items-center mb-6'>
-        <h1 className='text-2xl font-bold text-gray-800'>My Profile</h1>
+        <h1 className='text-2xl font-bold text-white'>My Profile</h1>
         <div className='flex space-x-2'>
           <Link href='/dashboard/edit-profile'>
             <Button

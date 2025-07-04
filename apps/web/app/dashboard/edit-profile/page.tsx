@@ -79,7 +79,7 @@ export default function EditProfile() {
   return (
     <div className='max-w-4xl mx-auto'>
       <div className='flex justify-between items-center mb-6'>
-        <h1 className='text-2xl font-bold text-gray-800'>Edit Profile</h1>
+        <h1 className='text-2xl font-bold text-white'>Edit Profile</h1>
         <Link href='/dashboard/profile'>
           <Button variant='outline' size='sm' className='border-indigo-200'>
             Cancel
