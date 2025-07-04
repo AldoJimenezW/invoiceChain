@@ -22,34 +22,44 @@ export default function Dashboard() {
     if (data) {
       setBestRatedUsers(data.user);
       setCards(data.card);
-      console.log(data.card)
     }
   }, [data]);
 
   const cardSlides = cards.map((card) => (
-    <Card key={card.id} className='bg-black/60 border-none backdrop-blur-xl'>
-      <CardContent className='flex items-center px-16 h-64 w-220 gap-x-6'>
-        <Avatar className='h-64 w-64 mr-4'>
-          <AvatarImage src={card.image} alt="image" />
-          <AvatarFallback className='bg-blue-100 text-blue-700'>
+    <Card
+      key={card.id}
+      className="flex flex-row items-center backdrop-blur-md bg-black/40 border border-gray-700 rounded-xl w-[50rem] h-60 shadow-md"
+    >
+      {/* Left side: Image */}
+      <div className="flex items-center justify-center w-1/3">
+        <Avatar className="h-40 w-40 ring-2 ring-blue-500">
+          <AvatarImage src={card.image} alt="avatar" />
+          <AvatarFallback className="bg-blue-700 text-white font-bold text-2xl">
             {card.title
               .split(' ')
-              .map((n) => n[0])
+              .map(word => word[0])
               .join('')
               .toUpperCase()}
           </AvatarFallback>
         </Avatar>
-        <div className="flex flex-col gap-4 justify-start h-full">
-          <p className='font-medium text-gray-800 text-white'>{card.title}</p>
-          <p className='text-xl text-white'>
-            {card.description}
-          </p>
+      </div>
+
+      {/* Right side: Content */}
+      <div className="flex flex-col justify-between w-2/3 h-full pr-4">
+        <div>
+          <h3 className="text-2xl font-semibold text-white mb-2 truncate">
+            {card.title}
+          </h3>
+          <p className="text-gray-300 text-sm line-clamp-3">{card.description}</p>
         </div>
-        <button className='absolute bottom-4 right-4 text-white bg-blue-500 hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'>
+        <button className=" bg-blue-600 hover:bg-blue-500 transition-colors text-white text-sm font-medium py-2 px-4 rounded-md shadow">
           Get in touch
         </button>
-      </CardContent>
+      </div>
     </Card>
+
+
+
   ))
 
   return (
@@ -90,11 +100,10 @@ export default function Dashboard() {
                   </div>
 
                   <p
-                    className="
-        text-sm text-white/90 max-w-xs
-        line-clamp-4
-        overflow-hidden
-      "
+                    className="text-sm text-white/90 max-w-xs
+                        line-clamp-4
+                        overflow-hidden
+                      "
                     style={{ maxHeight: '5.5rem' }}
                   >
                     {user.biography}
