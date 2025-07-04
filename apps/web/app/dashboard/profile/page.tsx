@@ -19,6 +19,9 @@ import {
   Briefcase,
   Edit,
   Shield,
+  Facebook,
+  Twitter,
+  Instagram,
 } from 'lucide-react'
 import { authClient, useSession } from '~/lib/auth'
 
@@ -46,7 +49,7 @@ export default function Profile() {
   const skills: string[] = [];
 
   return (
-    <div className='max-w-4xl mx-auto'>
+    <div className='max-w-4xl mx-auto '>
       <div className='flex justify-between items-center mb-6'>
         <h1 className='text-2xl font-bold text-white'>My Profile</h1>
         <div className='flex space-x-2'>
@@ -54,7 +57,7 @@ export default function Profile() {
             <Button
               variant='outline'
               size='sm'
-              className='flex items-center border-blue-200 text-blue-700 hover:bg-blue-50'
+              className='flex items-center border-blue-500 hover:border-blue-700 text-white bg-blue-500 hover:bg-blue-700'
             >
               <Edit className='mr-2 h-4 w-4' />
               Edit Profile
@@ -64,18 +67,18 @@ export default function Profile() {
             <Button
               variant='outline'
               size='sm'
-              className='flex items-center border-blue-200 text-blue-700 hover:bg-blue-50'
+              className='flex items-center border-blue-500 hover:border-blue-700 text-white bg-blue-500 hover:bg-blue-700'
             >
               <Shield className='mr-2 h-4 w-4' />
-              Security
+              Settings
             </Button>
           </Link>
         </div>
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-6 '>
         <div className='md:col-span-1'>
-          <Card className='border-blue-200'>
+          <Card className='border-white/10 backdrop-blur-md bg-white/20'>
             <CardContent className='pt-6'>
               <div className='flex flex-col items-center'>
                 <Avatar className='h-24 w-24 mb-4'>
@@ -84,17 +87,17 @@ export default function Profile() {
                     alt={`${user?.name ?? ''} ${user?.lastName ?? ''}`}
                     className="object-cover object-center w-full h-full"
                   />
-                  <AvatarFallback className='bg-blue-100 text-blue-700 text-xl'>
+                  <AvatarFallback className='bg-blue-500 text-[#71fff0] text-xl'>
                     {getInitials(user?.name, user?.lastName)}
                   </AvatarFallback>
                 </Avatar>
-                <h2 className='text-xl font-bold text-gray-800'>
+                <h2 className='text-xl font-bold text-white'>
                   {user?.name ?? 'No Name'} {user?.lastName ?? ''}
                 </h2>
-                <p className='text-gray-500 text-sm'>
+                <p className='text-white text-sm'>
                   {user?.profession ?? 'No profession'}
                 </p>
-                <p className='text-gray-500 text-sm flex items-center mt-1'>
+                <p className='text-white text-sm flex items-center mt-1'>
                   <MapPin className='h-3 w-3 mr-1' />
                   {user?.location ?? 'N/A'}
                 </p>
@@ -102,19 +105,19 @@ export default function Profile() {
 
               <div className='mt-6 space-y-3'>
                 <div className='flex items-start'>
-                  <Mail className='h-5 w-5 text-blue-500 mr-3 mt-0.5' />
+                  <Mail className='h-5 w-5 text-[#71fff0] mr-3 mt-0.5' />
                   <div>
-                    <p className='text-sm font-medium text-gray-700'>Email</p>
-                    <p className='text-sm text-gray-600'>{user?.email ?? ''}</p>
+                    <p className='text-sm font-medium text-white'>Email</p>
+                    <p className='text-sm text-white'>{user?.email ?? ''}</p>
                   </div>
                 </div>
                 <div className='flex items-start'>
-                  <Calendar className='h-5 w-5 text-blue-500 mr-3 mt-0.5' />
+                  <Calendar className='h-5 w-5 text-[#71fff0] mr-3 mt-0.5' />
                   <div>
-                    <p className='text-sm font-medium text-gray-700'>
+                    <p className='text-sm font-medium text-white'>
                       Member Since
                     </p>
-                    <p className='text-sm text-gray-600'>
+                    <p className='text-sm text-white'>
                       {user?.createdAt
                         ? new Date(user.createdAt).toLocaleDateString()
                         : 'Unknown'}
@@ -122,12 +125,12 @@ export default function Profile() {
                   </div>
                 </div>
                 <div className='flex items-start'>
-                  <Briefcase className='h-5 w-5 text-blue-500 mr-3 mt-0.5' />
+                  <Briefcase className='h-5 w-5 text-[#71fff0] mr-3 mt-0.5' />
                   <div>
-                    <p className='text-sm font-medium text-gray-700'>
+                    <p className='text-sm font-medium text-white'>
                       Occupation
                     </p>
-                    <p className='text-sm text-gray-600'>
+                    <p className='text-sm text-white'>
                       {user?.profession ?? 'No profession'}
                     </p>
                   </div>
@@ -139,43 +142,43 @@ export default function Profile() {
 
         <div className='md:col-span-2'>
           <Tabs defaultValue='about' className='w-full'>
-            <TabsList className='grid w-full grid-cols-3 bg-blue-50'>
-              <TabsTrigger value='about'>About</TabsTrigger>
-              <TabsTrigger value='skills'>Skills</TabsTrigger>
-              <TabsTrigger value='social'>Social</TabsTrigger>
+            <TabsList className='grid w-full grid-cols-3 bg-white/10'>
+              <TabsTrigger className='text-white' value='about'>About</TabsTrigger>
+              <TabsTrigger className='text-white' value='skills'>Skills</TabsTrigger>
+              <TabsTrigger className='text-white' value='social'>Social</TabsTrigger>
             </TabsList>
             <TabsContent value='about'>
-              <Card className='border-blue-200'>
+              <Card className='border-white/10 backdrop-blur-md bg-white/20'>
                 <CardHeader>
-                  <CardTitle className='text-blue-700'>About Me</CardTitle>
-                  <CardDescription>
+                  <CardTitle className='text-[#71fff0]'>About Me</CardTitle>
+                  <CardDescription className='text-white'>
                     Personal information and bio
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className='text-gray-700 whitespace-pre-line'>
+                  <p className='text-white whitespace-pre-line'>
                     {user?.biography ?? 'No biography provided.'}
                   </p>
                 </CardContent>
               </Card>
             </TabsContent>
             <TabsContent value='skills'>
-              <Card className='border-blue-200'>
+              <Card className='border-white/10 backdrop-blur-md bg-white/20'>
                 <CardHeader>
-                  <CardTitle className='text-blue-700'>Skills</CardTitle>
-                  <CardDescription>
+                  <CardTitle className='text-[#71fff0]'>Skills</CardTitle>
+                  <CardDescription className='text-white'>
                     Technical skills and expertise
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className='flex flex-wrap gap-2'>
                     {skills.length === 0 && (
-                      <span className='text-gray-400 text-sm'>No skills listed.</span>
+                      <span className='text-white text-sm'>No skills listed.</span>
                     )}
                     {skills.map((skill, index) => (
                       <span
                         key={index}
-                        className='px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm'
+                        className='px-3 py-1 bg-blue-500 text-[#71fff0] rounded-full text-sm'
                       >
                         {skill}
                       </span>
@@ -185,38 +188,38 @@ export default function Profile() {
               </Card>
             </TabsContent>
             <TabsContent value='social'>
-              <Card className='border-blue-200'>
+              <Card className='border-white/10 backdrop-blur-md bg-white/20'>
                 <CardHeader>
-                  <CardTitle className='text-blue-700'>
+                  <CardTitle className='text-[#71fff0]'>
                     Social Links
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className='text-white'>
                     Connect with me on social platforms
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className='space-y-4'>
                     {Object.entries(socialLinks).every(([_, v]) => !v) && (
-                      <span className='text-gray-400 text-sm'>No social links provided.</span>
+                      <span className='text-white text-sm'>No social links provided.</span>
                     )}
                     {Object.entries(socialLinks)
                       .filter(([_, link]) => !!link)
                       .map(([platform, link]) => (
                         <div key={platform} className='flex items-center'>
-                          <div className='w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3'>
-                            <span className='text-blue-700 font-medium uppercase'>
-                              {platform[0]}
-                            </span>
+                          <div className='w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center mr-3'>
+                            {platform === 'facebook' && <Facebook className='h-5 w-5 text-white' />}
+                            {platform === 'twitter' && <Twitter className='h-5 w-5 text-white' />}
+                            {platform === 'instagram' && <Instagram className='h-5 w-5 text-white' />}
                           </div>
                           <div>
-                            <p className='text-sm font-medium text-gray-700 capitalize'>
+                            <p className='text-sm font-medium text-white capitalize'>
                               {platform}
                             </p>
                             <a
                               href={`https://${link}`}
                               target='_blank'
                               rel='noopener noreferrer'
-                              className='text-sm text-blue-600 hover:underline'
+                              className='text-sm text-blue-200 hover:underline'
                             >
                               {link}
                             </a>
@@ -229,47 +232,47 @@ export default function Profile() {
             </TabsContent>
           </Tabs>
 
-          <Card className='border-blue-200 mt-6'>
+          <Card className='border-white/10 backdrop-blur-md bg-white/20 mt-6'>
             <CardHeader>
-              <CardTitle className='text-blue-700'>Recent Activity</CardTitle>
-              <CardDescription>Your latest actions and updates</CardDescription>
+              <CardTitle className='text-[#71fff0]'>Recent Activity</CardTitle>
+              <CardDescription className='text-white'>Your latest actions and updates</CardDescription>
             </CardHeader>
             <CardContent>
               <div className='space-y-4'>
                 <div className='flex'>
-                  <div className='mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-blue-100'>
-                    <User className='h-5 w-5 text-blue-700' />
+                  <div className='mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-blue-500'>
+                    <User className='h-5 w-5 text-white' />
                   </div>
                   <div>
-                    <p className='text-sm font-medium'>Profile Updated</p>
-                    <p className='text-xs text-gray-500'>
+                    <p className='text-sm font-medium text-white'>Profile Updated</p>
+                    <p className='text-xs text-white'>
                       You updated your profile information
                     </p>
-                    <p className='text-xs text-gray-400 mt-1'>2 days ago</p>
+                    <p className='text-xs text-white mt-1'>2 days ago</p>
                   </div>
                 </div>
                 <div className='flex'>
-                  <div className='mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-blue-100'>
-                    <Shield className='h-5 w-5 text-blue-700' />
+                  <div className='mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-blue-500'>
+                    <Shield className='h-5 w-5 text-white' />
                   </div>
                   <div>
-                    <p className='text-sm font-medium'>Password Changed</p>
-                    <p className='text-xs text-gray-500'>
+                    <p className='text-sm font-medium text-white'>Password Changed</p>
+                    <p className='text-xs text-white'>
                       You successfully changed your password
                     </p>
-                    <p className='text-xs text-gray-400 mt-1'>1 week ago</p>
+                    <p className='text-xs text-white mt-1'>1 week ago</p>
                   </div>
                 </div>
                 <div className='flex'>
-                  <div className='mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-blue-100'>
-                    <Mail className='h-5 w-5 text-blue-700' />
+                  <div className='mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-blue-500'>
+                    <Mail className='h-5 w-5 text-white' />
                   </div>
                   <div>
-                    <p className='text-sm font-medium'>Email Verified</p>
-                    <p className='text-xs text-gray-500'>
+                    <p className='text-sm font-medium text-white'>Email Verified</p>
+                    <p className='text-xs text-white'>
                       Your email address has been verified
                     </p>
-                    <p className='text-xs text-gray-400 mt-1'>2 weeks ago</p>
+                    <p className='text-xs text-white mt-1'>2 weeks ago</p>
                   </div>
                 </div>
               </div>
