@@ -31,7 +31,6 @@ function getUpdateAssignments(fields: string[]) {
 
 router.get('/', async (req, res) => {
   const session = await verifySession(req, res);
-  console.log(session);
   if (!session) return;
 
   try {
@@ -147,6 +146,35 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ error: 'Error deleting user' });
   }
 });
+
+router.post('/set-role', async (req, res) => {
+  const session = await verifySession(req, res);
+  if (!session) return;
+
+  const { role } = req.body;
+  const allowedRoles = ['creator', 'customer'];
+
+  if (!allowedRoles.includes(role)) {
+    return res.status(400).json({ error: 'Invalid role' });
+  }
+
+  try {
+    const [result] = await pool.query<ResultSetHeader>(
+      'UPDATE user SET role = ? WHERE id = ?',
+      [role, session.user.id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(204).end();
+  } catch (error) {
+    console.error('Error updating user role:', error);
+    res.status(500).json({ error: 'Error updating user role' });
+  }
+});
+
 
 router.get('/top-users/:count', async (req, res) => {
   const session = await verifySession(req, res);

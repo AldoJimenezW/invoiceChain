@@ -10,39 +10,21 @@ import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
 import EmblaCarousel from '~/components/ui/EmblaCarousel'
 import { EmblaOptionsType } from 'embla-carousel'
 import { Star } from 'lucide-react';
+import { useDashboardData } from '~/hooks/useDashboardData'
 
 export default function Dashboard() {
-  const [bestRatedUsers, setBestRatedUsers] = useState<{ id: number, pic: string, name: string, rating: number, profession: string, biography: string, }[]>([])
+  const [bestRatedUsers, setBestRatedUsers] = useState<{ id: number, image: string, name: string, rating: number, profession: string, biography: string }[]>([])
+  const [cards, setCards] = useState<{ id: number, image: string, title: string, description: string }[]>([])
   const OPTIONS: EmblaOptionsType = { loop: true }
+  const { data, loading, error } = useDashboardData(5);
 
   useEffect(() => {
-    const fetchTopUsers = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/top-users/5`, {
-          credentials: 'include',
-        })
-        if (!res.ok) throw new Error('Failed to fetch')
-        const data = await res.json()
-        console.log(data)
-        setBestRatedUsers(data)
-      } catch (e) {
-        // Optionally handle error
-        setBestRatedUsers([])
-      }
+    if (data) {
+      setBestRatedUsers(data.user);
+      setCards(data.card);
+      console.log(data.card)
     }
-    fetchTopUsers()
-  }, [])
-
-  const cards = [
-    { id: 1, image: '/bg.jpg', title: 'User A', description: "This is a description" },
-    { id: 2, image: '/bg.jpg', title: 'User B', description: "This is a description" },
-    { id: 3, image: '/bg.jpg', title: 'User C', description: "This is a description" },
-    { id: 4, image: '/bg.jpg', title: 'User C', description: "This is a description" },
-    { id: 5, image: '/bg.jpg', title: 'User C', description: "This is a description" },
-    { id: 6, image: '/bg.jpg', title: 'User C', description: "This is a description" },
-    { id: 7, image: '/bg.jpg', title: 'User C', description: "This is a description" },
-    { id: 8, image: '/bg.jpg', title: 'User C', description: "This is a description" },
-  ]
+  }, [data]);
 
   const cardSlides = cards.map((card) => (
     <Card key={card.id} className='bg-black/60 border-none backdrop-blur-xl'>
@@ -87,7 +69,7 @@ export default function Dashboard() {
               >
                 <div className="flex flex-col items-center text-center space-y-4">
                   <Avatar className="w-24 h-24 ring-4 ring-white shadow-lg">
-                    <AvatarImage src={user.pic} alt={user.name} />
+                    <AvatarImage src={user.image} alt={user.name} className='object-cover' />
                     <AvatarFallback className="bg-blue-200 text-white text-xl font-bold">
                       {user.name
                         .split(' ')

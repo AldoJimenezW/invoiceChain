@@ -8,7 +8,6 @@ const Axios = axios.create({
   headers: {
     Accept: 'application/json',
   },
-  // Important: Allow cookies to be sent with requests
   withCredentials: true,
 })
 

@@ -195,11 +195,11 @@ export async function seedDb() {
       await connection.query(`
         INSERT INTO user (id, name, lastName, age, profession, email, emailVerified, image, createdAt, updatedAt, biography, facebook, twitter, instagram, phone, walletAddress, role, isAdmin, location) -- Added location
         VALUES
-          ('${adminUserId}', 'Admin', 'User', 30, 'Administrator', 'admin@example.com', TRUE, NULL, NOW(), NOW(), 'System administrator', NULL, NULL, NULL, '+1234567890', '${adminWallet}', 'admin', TRUE, 'New York, USA'), -- Added location value
-          ('${user1Id}', 'John', 'Doe', 25, 'Developer', 'user1@example.com', TRUE, NULL, NOW(), NOW(), 'Passionate developer', NULL, NULL, NULL, '+1234567891', '${user1Wallet}', 'user', FALSE, 'London, UK'), -- Added location value
-          ('${user2Id}', 'Jane', 'Smith', 28, 'Designer', 'user2@example.com', TRUE, NULL, NOW(), NOW(), NULL, NULL, NULL, NULL, '+1234567892', '${user2Wallet}', 'user', FALSE, 'Paris, France'),
-          ('${user3Id}', 'Emily', 'Clark', 31, 'Writer', 'user3@example.com', TRUE, NULL, NOW(), NOW(), 'Loves storytelling', NULL, NULL, NULL, '+1234567893', '${user3Wallet}', 'user', FALSE, 'Toronto, Canada'),
-          ('${user4Id}', 'Carlos', 'Mendez', 29, 'Illustrator', 'user4@example.com', TRUE, NULL, NOW(), NOW(), 'Visual thinker', NULL, NULL, NULL, '+1234567894', '${user4Wallet}', 'user', FALSE, 'Madrid, Spain')
+          ('${adminUserId}', 'Admin', 'User', 30, 'Administrator', 'admin@example.com', TRUE, 'https://cdn.dishei.xyz/admin.jpg', NOW(), NOW(), 'System administrator', NULL, NULL, NULL, '+1234567890', '${adminWallet}', 'admin', TRUE, 'New York, USA'), -- Added location value
+          ('${user1Id}', 'John', 'Doe', 25, 'Crafter', 'user1@example.com', TRUE, 'https://cdn.dishei.xyz/person1.jpg', NOW(), NOW(), 'Passionate developer', NULL, NULL, NULL, '+1234567891', '${user1Wallet}', 'user', FALSE, 'London, UK'), -- Added location value
+          ('${user2Id}', 'Carlos', 'Mendez', 28, 'Designer', 'user2@example.com', TRUE, 'https://cdn.dishei.xyz/person2.jpg', NOW(), NOW(), NULL, NULL, NULL, NULL, '+1234567892', '${user2Wallet}', 'user', FALSE, 'Paris, France'),
+          ('${user3Id}', 'Emily', 'Clark', 31, 'Writer', 'user3@example.com', TRUE, 'https://cdn.dishei.xyz/person3.jpg', NOW(), NOW(), 'Loves storytelling', NULL, NULL, NULL, '+1234567893', '${user3Wallet}', 'user', FALSE, 'Toronto, Canada'),
+          ('${user4Id}', 'Jane', 'Smith', 29, 'Illustrator', 'user4@example.com', TRUE, 'https://cdn.dishei.xyz/person4.jpg', NOW(), NOW(), 'Visual thinker', NULL, NULL, NULL, '+1234567894', '${user4Wallet}', 'user', FALSE, 'Madrid, Spain')
 
           `);
 
@@ -255,109 +255,6 @@ export async function seedDb() {
           ('INV-2025-004', '${user2Wallet}', '${user1Wallet}', 3, 'Waiting for payment on this one.'),
           ('INV-2025-003', '${adminWallet}', '${user2Wallet}', 2, 'Still no payment received.'),
           ('INV-2025-002', '${user2Wallet}', '${user1Wallet}', 5, 'Highly recommend this service!')
-      `);
-
-
-      console.log('Database seeded successfully');
-    } else {
-      console.log('Database already has data, skipping seed');
-    }
-  } catch (error) {
-    console.error('Error seeding database:', error);
-    throw error;
-  } finally {
-    connection.release();
-  }
-}
-async function seedDb2() {
-  const connection = await pool.getConnection();
-  try {
-    // Verificar si ya hay datos
-    const [rows] = await connection.query<CountResult[]>('SELECT COUNT(*) as count FROM user');
-    const userCount = rows[0].count;
-
-    if (userCount === 0) {
-      // Define sample user UUIDs
-      const adminUserId = 'a1b2c3d4-e5f6-7890-1234-567890abcdef';
-      const user1Id = 'b2c3d4e5-f678-9012-3456-7890abcdef12';
-      const user2Id = 'c3d4e5f6-7890-1234-5678-90abcdef1234';
-      const user3Id = 'd4e5f678-9012-3456-7890-abcdef123456';
-      const user4Id = 'e5f67890-1234-5678-90ab-cdef12345678';
-
-      // Define sample wallet addresses (matching seeded users)
-      const adminWallet = '0x1234567890123456789012345678901234567890';
-      const user1Wallet = '0x2345678901234567890123456789012345678901';
-      const user2Wallet = '0x3456789012345678901234567890123456789012';
-      const user3Wallet = '0x4567890123456789012345678901234567890123';
-      const user4Wallet = '0x5678901234567890123456789012345678901234';
-
-      // Seed users
-      await connection.query(`
-        INSERT INTO user (id, name, lastName, age, profession, email, emailVerified, image, createdAt, updatedAt, biography, facebook, twitter, instagram, phone, walletAddress, role, isAdmin, location) -- Added location
-        VALUES
-          ('${adminUserId}', 'Admin', 'User', 30, 'Administrator', 'admin@example.com', TRUE, NULL, NOW(), NOW(), 'System administrator', NULL, NULL, NULL, '+1234567890', '${adminWallet}', 'admin', TRUE, 'New York, USA'), -- Added location value
-          ('${user1Id}', 'John', 'Doe', 25, 'Developer', 'user1@example.com', TRUE, NULL, NOW(), NOW(), 'Passionate developer', NULL, NULL, NULL, '+1234567891', '${user1Wallet}', 'user', FALSE, 'London, UK'), -- Added location value
-          ('${user2Id}', 'Jane', 'Smith', 28, 'Designer', 'user2@example.com', TRUE, NULL, NOW(), NOW(), NULL, NULL, NULL, NULL, '+1234567892', '${user2Wallet}', 'user', FALSE, 'Paris, France'), -- Added location value
-          ('${user3Id}', 'Emily', 'Clark', 31, 'Writer', 'user3@example.com', TRUE, NULL, NOW(), NOW(), 'Loves storytelling', NULL, NULL, NULL, '+1234567893', '${user3Wallet}', 'user', FALSE, 'Toronto, Canada'),
-          ('${user4Id}', 'Carlos', 'Mendez', 29, 'Illustrator', 'user4@example.com', TRUE, NULL, NOW(), NOW(), 'Visual thinker', NULL, NULL, NULL, '+1234567894', '${user4Wallet}', 'user', FALSE, 'Madrid, Spain')
-      `);
-
-      // Seed transactions
-      await connection.query(`
-        INSERT INTO transaction (txHash, fromAddress, toAddress, amount, status)
-        VALUES
-          ('0xabc123', '${user1Wallet}', '${adminWallet}', 1.5, 'COMPLETED'),
-          ('0xdef456', '${user2Wallet}', '${user1Wallet}', 2.25, 'COMPLETED'),
-          ('0xghi789', '${adminWallet}', '${user2Wallet}', 3.75, 'PENDING')
-      `);
-
-      // Seed invoices
-      await connection.query(`
-        INSERT INTO invoice (invoiceNumber, userId, clientName, amount, status, dueDate, contractAddress, txHash)
-        VALUES
-          ('INV-2025-001', '${adminUserId}', 'Client A', 1500.00, 'PAID', '2025-04-15', '0xcontract1', '0xtx1'),
-          ('INV-2025-002', '${user1Id}', 'Client B', 1300.00, 'PAID', '2025-04-20', '0xcontract2', '0xtx2'),
-          ('INV-2025-003', '${user2Id}', 'Client C', 1100.00, 'PAID', '2025-04-25', '0xcontract3', '0xtx3'),
-          ('INV-2025-004', '${user3Id}', 'Client D', 1700.00, 'PAID', '2025-04-30', '0xcontract4', '0xtx4'),
-          ('INV-2025-005', '${user4Id}', 'Client E', 900.00, 'PAID', '2025-05-05', '0xcontract5', '0xtx5')
-          `);
-
-      // Seed cards
-      await connection.query(`
-        INSERT INTO card (userId, title, description)
-        VALUES
-          ('${adminUserId}', 'Business Card', 'Professional business card design'),
-          ('${user1Id}', 'Holiday Card', 'Seasonal greetings card'),
-          ('${user2Id}', 'Thank You Card', 'Gratitude expression card')
-      `);
-
-      // Seed crafts
-      await connection.query(`
-        INSERT INTO craft (userId, title, description, image)
-        VALUES
-          ('${adminUserId}', 'Handmade Pottery', 'Beautiful ceramic vase', 'pottery1.jpg'),
-          ('${user1Id}', 'Knitted Scarf', 'Warm winter accessory', 'scarf1.jpg'),
-          ('${user2Id}', 'Wooden Sculpture', 'Hand-carved wooden art piece', 'sculpture1.jpg')
-      `);
-
-      // Seed reviews
-      await connection.query(`
-        INSERT INTO review (invoiceNumber, fromAddress, toAddress, rating, comment)
-        VALUES
-          ('INV-2025-001', '${adminWallet}', '${user1Wallet}', 5, 'Excellent service and prompt payment!'),
-          ('INV-2025-001', '${user2Wallet}', '${user1Wallet}', 4, 'Smooth transaction, good communication.'),
-          ('INV-2025-002', '${adminWallet}', '${user2Wallet}', 3, 'Invoice is pending, hoping for timely payment.'),
-          ('INV-2025-002', '${user1Wallet}', '${user2Wallet}', 4, 'Client B is usually reliable.'),
-          ('INV-2025-003', '${user1Wallet}', '${adminWallet}', 2, 'Payment is overdue, needs follow-up.'),
-          ('INV-2025-003', '${user2Wallet}', '${adminWallet}', 1, 'Significant delay in payment.'),
-          ('INV-2025-001', '${user1Wallet}', '${adminWallet}', 5, 'Received payment quickly.'),
-          ('INV-2025-002', '${user2Wallet}', '${user1Wallet}', 3, 'Waiting for payment on this one.'),
-          ('INV-2025-003', '${adminWallet}', '${user2Wallet}', 2, 'Still no payment received.'),
-          ('INV-2025-001', '${user2Wallet}', '${user1Wallet}', 5, 'Highly recommend this service!'),
-          ('INV-2025-004', '0x1234567890123456789012345678901234567890', '0x4567890123456789012345678901234567890123', 5, 'Excellent writing, clear and creative.'),
-          ('INV-2025-004', '0x2345678901234567890123456789012345678901', '0x4567890123456789012345678901234567890123', 4, 'Delivered ahead of time, great communication.'),
-          ('INV-2025-005', '0x1234567890123456789012345678901234567890', '0x5678901234567890123456789012345678901234', 3, 'Artwork was good, could use a bit more polish.'),
-          ('INV-2025-005', '0x3456789012345678901234567890123456789012', '0x5678901234567890123456789012345678901234', 4, 'Responsive and creative artist.')
       `);
 
 

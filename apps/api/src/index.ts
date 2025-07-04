@@ -21,6 +21,7 @@ const allowedOrigins = [
 ];
 
 // Use a function to check the origin
+
 app.use(cors({
   credentials: true,
   origin: (origin, callback) => {
@@ -32,15 +33,13 @@ app.use(cors({
     }
   }
 }));
-
+app.all('/api/auth/*', toNodeHandler(auth));
+app.use(express.json());
 app.use('/api/users', usersRoutes);
 app.use('/api/transactions', transactionsRoutes);
 app.use('/api/invoices', invoicesRoutes);
 app.use('/api/cards', cardsRoutes);
 app.use('/api/reviews', reviewsRoutes);
-
-app.all('/api/auth/*', toNodeHandler(auth));
-app.use(express.json());
 
 // Ruta básica
 app.get('/', (req, res) => {

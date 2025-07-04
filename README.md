@@ -204,3 +204,532 @@ mysql -u user -p -h localhost blockchain_db
 - [Documentación de Hardhat](https://hardhat.org/getting-started/)
 - [Red de prueba Sepolia](https://sepolia.etherscan.io/)
 - [Red de prueba Mumbai (Polygon)](https://mumbai.polygonscan.com/)
+
+```
+invoiceChain
+├─   web
+├─ .eslintrc.js
+├─ .prettierignore
+├─ .prettierrc
+├─ README.md
+├─ apps
+│  ├─ admin
+│  │  ├─ README.md
+│  │  ├─ index.html
+│  │  ├─ package.json
+│  │  ├─ public
+│  │  │  └─ vite.svg
+│  │  ├─ src
+│  │  │  ├─ App.tsx
+│  │  │  └─ main.tsx
+│  │  ├─ tsconfig.app.json
+│  │  ├─ tsconfig.json
+│  │  ├─ tsconfig.node.json
+│  │  └─ vite.config.ts
+│  ├─ api
+│  │  ├─ better-auth_migrations
+│  │  ├─ package.json
+│  │  ├─ src
+│  │  │  ├─ api
+│  │  │  │  ├─ cards.ts
+│  │  │  │  ├─ invoices.ts
+│  │  │  │  ├─ reviews.ts
+│  │  │  │  ├─ transactions.ts
+│  │  │  │  └─ users.ts
+│  │  │  ├─ db
+│  │  │  │  ├─ migrate.ts
+│  │  │  │  ├─ schema.ts
+│  │  │  │  └─ seed.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ lib
+│  │  │  │  └─ auth.ts
+│  │  │  ├─ types
+│  │  │  │  └─ db.ts
+│  │  │  └─ utils
+│  │  │     └─ verifySession.ts
+│  │  └─ tsconfig.json
+│  └─ web
+│     ├─ README.md
+│     ├─ app
+│     │  ├─ auth
+│     │  │  ├─ forgot-password
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ reset-password
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ signin
+│     │  │  │  └─ page.tsx
+│     │  │  └─ signup
+│     │  │     └─ page.tsx
+│     │  ├─ dashboard
+│     │  │  ├─ change-password
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ edit-profile
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ page.tsx
+│     │  │  ├─ profile
+│     │  │  │  └─ page.tsx
+│     │  │  └─ users
+│     │  │     └─ page.tsx
+│     │  ├─ favicon.ico
+│     │  ├─ globals.css
+│     │  ├─ page.tsx
+│     │  └─ user
+│     │     └─ [id]
+│     │        └─ page.tsx
+│     ├─ bun.lock
+│     ├─ components
+│     │  ├─ icon.tsx
+│     │  └─ ui
+│     │     ├─ EmblaCarousel.tsx
+│     │     ├─ EmblaCarouselArrowButtons.tsx
+│     │     ├─ accordion.tsx
+│     │     ├─ alert-dialog.tsx
+│     │     ├─ alert.tsx
+│     │     ├─ aspect-ratio.tsx
+│     │     ├─ avatar.tsx
+│     │     ├─ badge.tsx
+│     │     ├─ breadcrumb.tsx
+│     │     ├─ button.tsx
+│     │     ├─ calendar.tsx
+│     │     ├─ card.tsx
+│     │     ├─ carousel.tsx
+│     │     ├─ chart.tsx
+│     │     ├─ checkbox.tsx
+│     │     ├─ collapsible.tsx
+│     │     ├─ command.tsx
+│     │     ├─ context-menu.tsx
+│     │     ├─ dialog.tsx
+│     │     ├─ drawer.tsx
+│     │     ├─ dropdown-menu.tsx
+│     │     ├─ form.tsx
+│     │     ├─ hover-card.tsx
+│     │     ├─ input-otp.tsx
+│     │     ├─ input.tsx
+│     │     ├─ label.tsx
+│     │     ├─ menubar.tsx
+│     │     ├─ navigation-menu.tsx
+│     │     ├─ pagination.tsx
+│     │     ├─ popover.tsx
+│     │     ├─ progress.tsx
+│     │     ├─ radio-group.tsx
+│     │     ├─ resizable.tsx
+│     │     ├─ scroll-area.tsx
+│     │     ├─ select.tsx
+│     │     ├─ separator.tsx
+│     │     ├─ sheet.tsx
+│     │     ├─ sidebar.tsx
+│     │     ├─ skeleton.tsx
+│     │     ├─ slider.tsx
+│     │     ├─ sonner.tsx
+│     │     ├─ switch.tsx
+│     │     ├─ table.tsx
+│     │     ├─ tabs.tsx
+│     │     ├─ textarea.tsx
+│     │     ├─ toggle-group.tsx
+│     │     ├─ toggle.tsx
+│     │     └─ tooltip.tsx
+│     ├─ components.json
+│     ├─ emails
+│     │  └─ reset-password.tsx
+│     ├─ eslint.config.mjs
+│     ├─ hooks
+│     │  └─ use-mobile.ts
+│     ├─ lib
+│     │  ├─ auth.ts
+│     │  ├─ axios.ts
+│     │  ├─ constants.ts
+│     │  └─ utils.ts
+│     ├─ middleware.ts
+│     ├─ next-env.d.ts
+│     ├─ next.config.ts
+│     ├─ package.json
+│     ├─ postcss.config.mjs
+│     ├─ public
+│     │  ├─ bg.jpg
+│     │  ├─ file.svg
+│     │  ├─ globe.svg
+│     │  ├─ next.svg
+│     │  ├─ vercel.svg
+│     │  └─ window.svg
+│     └─ tsconfig.json
+├─ bun.lockb
+├─ docker
+│  └─ docker-compose.yml
+├─ jest.config.js
+├─ package.json
+├─ packages
+│  └─ contracts
+│     ├─ README.md
+│     ├─ contracts
+│     │  ├─ InvoiceContract.sol
+│     │  ├─ Lock.sol
+│     │  ├─ PaymentToken.sol
+│     │  ├─ SimpleToken.sol
+│     │  └─ scripts
+│     │     └─ deploy.ts
+│     ├─ hardhat.config.ts
+│     ├─ ignition
+│     │  └─ modules
+│     │     └─ Lock.ts
+│     ├─ package.json
+│     ├─ scripts
+│     ├─ test
+│     │  └─ Lock.ts
+│     └─ tsconfig.json
+├─ start.bat
+├─ start.sh
+└─ turbo.json
+
+```
+```
+invoiceChain
+├─   web
+├─ .eslintrc.js
+├─ .prettierignore
+├─ .prettierrc
+├─ README.md
+├─ apps
+│  ├─ admin
+│  │  ├─ README.md
+│  │  ├─ index.html
+│  │  ├─ package.json
+│  │  ├─ public
+│  │  │  └─ vite.svg
+│  │  ├─ src
+│  │  │  ├─ App.tsx
+│  │  │  └─ main.tsx
+│  │  ├─ tsconfig.app.json
+│  │  ├─ tsconfig.json
+│  │  ├─ tsconfig.node.json
+│  │  └─ vite.config.ts
+│  ├─ api
+│  │  ├─ better-auth_migrations
+│  │  ├─ package.json
+│  │  ├─ src
+│  │  │  ├─ api
+│  │  │  │  ├─ cards.ts
+│  │  │  │  ├─ invoices.ts
+│  │  │  │  ├─ reviews.ts
+│  │  │  │  ├─ transactions.ts
+│  │  │  │  └─ users.ts
+│  │  │  ├─ db
+│  │  │  │  ├─ migrate.ts
+│  │  │  │  ├─ schema.ts
+│  │  │  │  └─ seed.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ lib
+│  │  │  │  └─ auth.ts
+│  │  │  ├─ types
+│  │  │  │  └─ db.ts
+│  │  │  └─ utils
+│  │  │     └─ verifySession.ts
+│  │  └─ tsconfig.json
+│  └─ web
+│     ├─ README.md
+│     ├─ app
+│     │  ├─ auth
+│     │  │  ├─ forgot-password
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ reset-password
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ signin
+│     │  │  │  └─ page.tsx
+│     │  │  └─ signup
+│     │  │     └─ page.tsx
+│     │  ├─ dashboard
+│     │  │  ├─ change-password
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ edit-profile
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ page.tsx
+│     │  │  ├─ profile
+│     │  │  │  └─ page.tsx
+│     │  │  └─ users
+│     │  │     └─ page.tsx
+│     │  ├─ favicon.ico
+│     │  ├─ globals.css
+│     │  ├─ page.tsx
+│     │  └─ user
+│     │     └─ [id]
+│     │        └─ page.tsx
+│     ├─ bun.lock
+│     ├─ components
+│     │  ├─ icon.tsx
+│     │  └─ ui
+│     │     ├─ EmblaCarousel.tsx
+│     │     ├─ EmblaCarouselArrowButtons.tsx
+│     │     ├─ accordion.tsx
+│     │     ├─ alert-dialog.tsx
+│     │     ├─ alert.tsx
+│     │     ├─ aspect-ratio.tsx
+│     │     ├─ avatar.tsx
+│     │     ├─ badge.tsx
+│     │     ├─ breadcrumb.tsx
+│     │     ├─ button.tsx
+│     │     ├─ calendar.tsx
+│     │     ├─ card.tsx
+│     │     ├─ carousel.tsx
+│     │     ├─ chart.tsx
+│     │     ├─ checkbox.tsx
+│     │     ├─ collapsible.tsx
+│     │     ├─ command.tsx
+│     │     ├─ context-menu.tsx
+│     │     ├─ dialog.tsx
+│     │     ├─ drawer.tsx
+│     │     ├─ dropdown-menu.tsx
+│     │     ├─ form.tsx
+│     │     ├─ hover-card.tsx
+│     │     ├─ input-otp.tsx
+│     │     ├─ input.tsx
+│     │     ├─ label.tsx
+│     │     ├─ menubar.tsx
+│     │     ├─ navigation-menu.tsx
+│     │     ├─ pagination.tsx
+│     │     ├─ popover.tsx
+│     │     ├─ progress.tsx
+│     │     ├─ radio-group.tsx
+│     │     ├─ resizable.tsx
+│     │     ├─ scroll-area.tsx
+│     │     ├─ select.tsx
+│     │     ├─ separator.tsx
+│     │     ├─ sheet.tsx
+│     │     ├─ sidebar.tsx
+│     │     ├─ skeleton.tsx
+│     │     ├─ slider.tsx
+│     │     ├─ sonner.tsx
+│     │     ├─ switch.tsx
+│     │     ├─ table.tsx
+│     │     ├─ tabs.tsx
+│     │     ├─ textarea.tsx
+│     │     ├─ toggle-group.tsx
+│     │     ├─ toggle.tsx
+│     │     └─ tooltip.tsx
+│     ├─ components.json
+│     ├─ emails
+│     │  └─ reset-password.tsx
+│     ├─ eslint.config.mjs
+│     ├─ hooks
+│     │  └─ use-mobile.ts
+│     ├─ lib
+│     │  ├─ auth.ts
+│     │  ├─ axios.ts
+│     │  ├─ constants.ts
+│     │  └─ utils.ts
+│     ├─ middleware.ts
+│     ├─ next-env.d.ts
+│     ├─ next.config.ts
+│     ├─ package.json
+│     ├─ postcss.config.mjs
+│     ├─ public
+│     │  ├─ bg.jpg
+│     │  ├─ file.svg
+│     │  ├─ globe.svg
+│     │  ├─ next.svg
+│     │  ├─ vercel.svg
+│     │  └─ window.svg
+│     └─ tsconfig.json
+├─ bun.lockb
+├─ docker
+│  └─ docker-compose.yml
+├─ jest.config.js
+├─ package.json
+├─ packages
+│  └─ contracts
+│     ├─ README.md
+│     ├─ contracts
+│     │  ├─ InvoiceContract.sol
+│     │  ├─ Lock.sol
+│     │  ├─ PaymentToken.sol
+│     │  ├─ SimpleToken.sol
+│     │  └─ scripts
+│     │     └─ deploy.ts
+│     ├─ hardhat.config.ts
+│     ├─ ignition
+│     │  └─ modules
+│     │     └─ Lock.ts
+│     ├─ package.json
+│     ├─ scripts
+│     ├─ test
+│     │  └─ Lock.ts
+│     └─ tsconfig.json
+├─ start.bat
+├─ start.sh
+└─ turbo.json
+
+```
+```
+invoiceChain
+├─   web
+├─ .eslintrc.js
+├─ .prettierignore
+├─ .prettierrc
+├─ README.md
+├─ apps
+│  ├─ admin
+│  │  ├─ README.md
+│  │  ├─ index.html
+│  │  ├─ package.json
+│  │  ├─ public
+│  │  │  └─ vite.svg
+│  │  ├─ src
+│  │  │  ├─ App.tsx
+│  │  │  └─ main.tsx
+│  │  ├─ tsconfig.app.json
+│  │  ├─ tsconfig.json
+│  │  ├─ tsconfig.node.json
+│  │  └─ vite.config.ts
+│  ├─ api
+│  │  ├─ better-auth_migrations
+│  │  ├─ package.json
+│  │  ├─ src
+│  │  │  ├─ api
+│  │  │  │  ├─ cards.ts
+│  │  │  │  ├─ invoices.ts
+│  │  │  │  ├─ reviews.ts
+│  │  │  │  ├─ transactions.ts
+│  │  │  │  └─ users.ts
+│  │  │  ├─ db
+│  │  │  │  ├─ migrate.ts
+│  │  │  │  ├─ schema.ts
+│  │  │  │  └─ seed.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ lib
+│  │  │  │  └─ auth.ts
+│  │  │  ├─ types
+│  │  │  │  └─ db.ts
+│  │  │  └─ utils
+│  │  │     └─ verifySession.ts
+│  │  └─ tsconfig.json
+│  └─ web
+│     ├─ README.md
+│     ├─ app
+│     │  ├─ auth
+│     │  │  ├─ forgot-password
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ reset-password
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ signin
+│     │  │  │  └─ page.tsx
+│     │  │  └─ signup
+│     │  │     └─ page.tsx
+│     │  ├─ dashboard
+│     │  │  ├─ change-password
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ edit-profile
+│     │  │  │  └─ page.tsx
+│     │  │  ├─ page.tsx
+│     │  │  ├─ profile
+│     │  │  │  └─ page.tsx
+│     │  │  └─ users
+│     │  │     └─ page.tsx
+│     │  ├─ favicon.ico
+│     │  ├─ globals.css
+│     │  ├─ page.tsx
+│     │  └─ user
+│     │     └─ [id]
+│     │        └─ page.tsx
+│     ├─ bun.lock
+│     ├─ components
+│     │  ├─ icon.tsx
+│     │  └─ ui
+│     │     ├─ EmblaCarousel.tsx
+│     │     ├─ EmblaCarouselArrowButtons.tsx
+│     │     ├─ accordion.tsx
+│     │     ├─ alert-dialog.tsx
+│     │     ├─ alert.tsx
+│     │     ├─ aspect-ratio.tsx
+│     │     ├─ avatar.tsx
+│     │     ├─ badge.tsx
+│     │     ├─ breadcrumb.tsx
+│     │     ├─ button.tsx
+│     │     ├─ calendar.tsx
+│     │     ├─ card.tsx
+│     │     ├─ carousel.tsx
+│     │     ├─ chart.tsx
+│     │     ├─ checkbox.tsx
+│     │     ├─ collapsible.tsx
+│     │     ├─ command.tsx
+│     │     ├─ context-menu.tsx
+│     │     ├─ dialog.tsx
+│     │     ├─ drawer.tsx
+│     │     ├─ dropdown-menu.tsx
+│     │     ├─ form.tsx
+│     │     ├─ hover-card.tsx
+│     │     ├─ input-otp.tsx
+│     │     ├─ input.tsx
+│     │     ├─ label.tsx
+│     │     ├─ menubar.tsx
+│     │     ├─ navigation-menu.tsx
+│     │     ├─ pagination.tsx
+│     │     ├─ popover.tsx
+│     │     ├─ progress.tsx
+│     │     ├─ radio-group.tsx
+│     │     ├─ resizable.tsx
+│     │     ├─ scroll-area.tsx
+│     │     ├─ select.tsx
+│     │     ├─ separator.tsx
+│     │     ├─ sheet.tsx
+│     │     ├─ sidebar.tsx
+│     │     ├─ skeleton.tsx
+│     │     ├─ slider.tsx
+│     │     ├─ sonner.tsx
+│     │     ├─ switch.tsx
+│     │     ├─ table.tsx
+│     │     ├─ tabs.tsx
+│     │     ├─ textarea.tsx
+│     │     ├─ toggle-group.tsx
+│     │     ├─ toggle.tsx
+│     │     └─ tooltip.tsx
+│     ├─ components.json
+│     ├─ emails
+│     │  └─ reset-password.tsx
+│     ├─ eslint.config.mjs
+│     ├─ hooks
+│     │  └─ use-mobile.ts
+│     ├─ lib
+│     │  ├─ auth.ts
+│     │  ├─ axios.ts
+│     │  ├─ constants.ts
+│     │  └─ utils.ts
+│     ├─ middleware.ts
+│     ├─ next-env.d.ts
+│     ├─ next.config.ts
+│     ├─ package.json
+│     ├─ postcss.config.mjs
+│     ├─ public
+│     │  ├─ bg.jpg
+│     │  ├─ file.svg
+│     │  ├─ globe.svg
+│     │  ├─ next.svg
+│     │  ├─ vercel.svg
+│     │  └─ window.svg
+│     └─ tsconfig.json
+├─ bun.lockb
+├─ docker
+│  └─ docker-compose.yml
+├─ jest.config.js
+├─ package.json
+├─ packages
+│  └─ contracts
+│     ├─ README.md
+│     ├─ contracts
+│     │  ├─ InvoiceContract.sol
+│     │  ├─ Lock.sol
+│     │  ├─ PaymentToken.sol
+│     │  ├─ SimpleToken.sol
+│     │  └─ scripts
+│     │     └─ deploy.ts
+│     ├─ hardhat.config.ts
+│     ├─ ignition
+│     │  └─ modules
+│     │     └─ Lock.ts
+│     ├─ package.json
+│     ├─ scripts
+│     ├─ test
+│     │  └─ Lock.ts
+│     └─ tsconfig.json
+├─ start.bat
+├─ start.sh
+└─ turbo.json
+
+```
