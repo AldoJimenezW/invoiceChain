@@ -1,54 +1,131 @@
-# React + TypeScript + Vite
+# Bun-Hono-Better-Auth Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern Next.js frontend for the Bun-Hono-Better-Auth full-stack application. This client application provides user interfaces for authentication, user management, and admin controls while connecting to the Bun + Hono API backend.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🚀 **Built with Next.js 14** using the App Router architecture
+- 💅 **Shadcn UI** for beautiful, accessible components
+- 🔐 **Complete authentication flows**:
+  - Login with email and password
+  - User registration
+  - Forgot password / password reset
+  - Email verification support
+  - Magic link authentication
+  - Social login (Apple, Google, GitHub, Facebook, etc.)
+  - Two-factor authentication
+- 🌐 **Dashboard** with protected routes
+- 👤 **User profiles**:
+  - Profile viewing and editing
+  - Change password functionality
+- 🛡️ **Admin controls** with user management
+- 🔌 **Axios integration** for API communications
+- 📱 **Fully responsive design** for all device sizes
+- 🎨 **Modern UI/UX** with clean, intuitive interfaces
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- [Bun](https://bun.sh) (v1.0.0 or newer) or [Node.js](https://nodejs.org) (v18 or newer)
+- Backend API server ([see server documentation](/server/README.md))
+
+### Installation
+
+1. Install dependencies:
+
+```bash
+cd client
+bun install
+# or
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Configuration
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Create a `.env.local` file in the client directory:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
 ```
+NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+```
+
+## Development
+
+Run the development server:
+
+```bash
+bun dev
+# or
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
+
+## Project Structure
+
+```
+client/
+├── app/                     # Next.js App Router
+│   ├── auth/                # Authentication pages
+│   │   ├── login/           # Login page
+│   │   ├── register/        # Registration page
+│   │   ├── forgot-password/ # Password recovery
+│   │   └── reset-password/  # Password reset
+│   ├── dashboard/           # Protected dashboard area
+│   │   ├── profile/         # User profile page
+│   │   ├── edit-profile/    # Profile editing
+│   │   ├── change-password/ # Password changing
+│   │   └── users/           # Admin user management
+│   └── page.tsx             # Landing page
+├── components/              # Reusable components
+│   └── ui/                  # Shadcn UI components
+├── hooks/                   # Custom React hooks
+├── lib/                     # Utility functions
+│   ├── auth.ts              # Authentication helpers
+│   ├── axios.ts             # API client configuration
+│   ├── constants.ts         # Application constants
+│   └── utils.ts             # General utilities
+└── public/                  # Static assets
+```
+
+## Key Features Explained
+
+### Authentication Flow
+
+The authentication flow is handled through integration with the Back-end Better-Auth system:
+
+1. Users can register through the registration form
+2. Login with email and password
+3. Request password reset via email
+4. Access protected routes only when authenticated
+
+### Dashboard
+
+The dashboard area is protected and only accessible to authenticated users. It provides:
+
+- User profile management
+- Password changing functionality
+- For admin users: complete user management capabilities
+
+### Integration with API
+
+The frontend communicates with the Bun + Hono backend API using Axios. Authentication tokens are managed and automatically included in API requests.
+
+## Building for Production
+
+```bash
+bun run build
+bun run start
+```
+
+## Learn More
+
+To learn more about the technologies used:
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Shadcn UI](https://ui.shadcn.com/)
+- [Better Auth](https://github.com/yourprofile/better-auth)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.

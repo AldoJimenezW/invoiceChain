@@ -1,25 +1,26 @@
 import { RowDataPacket } from 'mysql2';
 
 export interface User extends RowDataPacket {
-  id: number;
+  id: string;
   name: string;
-  last_name: string;
+  lastName: string;
   age: number;
-  profession: string;
+  profession: string | null;
   email: string;
-  phone: string;
-  password_hash: string;
-  wallet_address: string | null;
-  is_admin: boolean;
-  is_active: boolean;
-  created_at: Date;
+  emailVerified: boolean;
+  image: string | null;
+  phone: string | null;
+  walletAddress: string | null;
+  isAdmin: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Transaction extends RowDataPacket {
   id: number;
-  tx_hash: string;
-  from_address: string;
-  to_address: string;
+  txHash: string;
+  fromAddress: string;
+  toAddress: string;
   amount: number;
   status: string;
   timestamp: Date;
@@ -27,19 +28,15 @@ export interface Transaction extends RowDataPacket {
 
 export interface Invoice extends RowDataPacket {
   id: number;
-  invoice_number: string;
-  user_id: number;
-  client_name: string;
+  invoiceNumber: string;
+  userId: string;
+  clientName: string;
   amount: number;
   status: string;
-  due_date: Date;
-  created_at: Date;
-  contract_address?: string;
-  tx_hash?: string;
-  name?: string;
-  last_name?: string;
-  email?: string;
-  wallet_address?: string;
+  dueDate: Date;
+  createdAt: Date;
+  contractAddress?: string | null;
+  txHash?: string | null;
 }
 
 export interface CountResult extends RowDataPacket {
@@ -48,27 +45,63 @@ export interface CountResult extends RowDataPacket {
 
 export interface Card extends RowDataPacket {
   id: number;
-  user_id: number;
+  userId: string;
   title: string;
-  description: string;
-  created_at: Date;
+  description: string | null;
+  createdAt: Date;
 }
 
 export interface Craft extends RowDataPacket {
   id: number;
-  user_id: number;
+  userId: string;
   title: string;
-  description: string;
-  image: string;
-  created_at: Date;
+  description: string | null;
+  image: string | null;
+  createdAt: Date;
 }
 
 export interface Review extends RowDataPacket {
   id: number;
-  tx_hash: string;
-  from_address: string;
-  to_address: string;
+  txHash: string;
+  fromAddress: string;
+  toAddress: string;
   rating: number;
   comment: string;
   timestamp: Date;
+}
+
+export interface Session extends RowDataPacket {
+  id: string;
+  expiresAt: Date;
+  token: string;
+  createdAt: Date;
+  updatedAt: Date;
+  ipAddress: string | null;
+  userAgent: string | null;
+  userId: string;
+}
+
+export interface Account extends RowDataPacket {
+  id: string;
+  accountId: string;
+  providerId: string;
+  userId: string;
+  accessToken: string | null;
+  refreshToken: string | null;
+  idToken: string | null;
+  accessTokenExpiresAt: Date | null;
+  refreshTokenExpiresAt: Date | null;
+  scope: string | null;
+  password: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Verification extends RowDataPacket {
+  id: string;
+  identifier: string;
+  value: string;
+  expiresAt: Date;
+  createdAt: Date | null;
+  updatedAt: Date | null;
 }
