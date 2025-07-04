@@ -5,7 +5,7 @@ import {
 } from 'better-auth/client/plugins'
 
 export const authClient = createAuthClient({
-  baseURL: 'http://192.168.1.128:4000/api/auth', // The base URL of the API
+  baseURL: process.env.NEXT_PUBLIC_AUTH_URL,
   plugins: [
     inferAdditionalFields({
       user: {
@@ -21,6 +21,22 @@ export const authClient = createAuthClient({
           type: "string",
           required: false,
         },
+        biography: { // Added biography
+          type: "string",
+          required: false,
+        },
+        facebook: { // Added facebook
+          type: "string",
+          required: false,
+        },
+        twitter: { // Added twitter
+          type: "string",
+          required: false,
+        },
+        instagram: { // Added instagram
+          type: "string",
+          required: false,
+        },
         phone: {
           type: "string",
           required: false,
@@ -29,8 +45,16 @@ export const authClient = createAuthClient({
           type: "string",
           required: false,
         },
+        role: { // Added role
+          type: "string",
+          required: false,
+        },
         isAdmin: {
           type: "boolean",
+          required: false,
+        },
+        location: { // Added location
+          type: "string",
           required: false,
         },
       }

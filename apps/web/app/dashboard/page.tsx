@@ -1,14 +1,10 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Button } from '~/components/ui/button'
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+  CardContent
 } from '~/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
 import EmblaCarousel from '~/components/ui/EmblaCarousel'
@@ -21,15 +17,24 @@ export default function Dashboard() {
     email: 'jane@example.com',
     joinedDate: 'March 2023',
   })
+  const [bestRatedUsers, setBestRatedUsers] = useState<{ id: number, pic: string, name: string, rating: number }[]>([])
   const OPTIONS: EmblaOptionsType = { loop: true }
 
-  // Placeholder data for Best Rated section
-  const bestRatedUsers = [
-    { id: 1, pic: '/placeholder.svg', name: 'User A', rating: 5 },
-    { id: 2, pic: '/placeholder.svg', name: 'User B', rating: 4.5 },
-    { id: 3, pic: '/placeholder.svg', name: 'User C', rating: 4 },
-    // Add more users as needed
-  ]
+  useEffect(() => {
+    const fetchTopUsers = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/top-users/3`)
+        if (!res.ok) throw new Error('Failed to fetch')
+        const data = await res.json()
+        console.log(data)
+        setBestRatedUsers(data)
+      } catch (e) {
+        // Optionally handle error
+        setBestRatedUsers([])
+      }
+    }
+    fetchTopUsers()
+  }, [])
 
   const cards = [
     { id: 1, image: '/bg.jpg', title: 'User A', description: "This is a description" },
@@ -74,8 +79,6 @@ export default function Dashboard() {
         <EmblaCarousel slides={cardSlides} options={OPTIONS} />
       </div>
       <div className='container mx-auto py-8 '>
-
-
         {/* Best Rated Section */}
         <section >
           <h2 className='text-4xl font-bold text-white mb-4'>Best Rated</h2>
@@ -96,12 +99,7 @@ export default function Dashboard() {
                   <div>
                     <p className='font-medium text-white'>{user.name}</p>
                     <div className="flex items-center gap-1">
-                      {Array.from({ length: Math.floor(user.rating) }).map((_, i) => (
-                        <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                      ))}
-                      {user.rating % 1 !== 0 && (
-                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400 opacity-50" />
-                      )}
+                      <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                       <span className="ml-2 text-sm text-white">{user.rating}/5</span>
                     </div>
                   </div>
@@ -110,7 +108,6 @@ export default function Dashboard() {
             ))}
           </div>
         </section >
-        {/* Removed Profile and Notifications cards */}
       </div>
     </div>
   )

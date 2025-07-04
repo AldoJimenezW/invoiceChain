@@ -31,6 +31,22 @@ export const auth = betterAuth({
         type: "string",
         required: false,
       },
+      biography: { // Added biography
+        type: "string",
+        required: false,
+      },
+      facebook: { // Added facebook
+        type: "string",
+        required: false,
+      },
+      twitter: { // Added twitter
+        type: "string",
+        required: false,
+      },
+      instagram: { // Added instagram
+        type: "string",
+        required: false,
+      },
       phone: {
         type: "string",
         required: false,
@@ -39,8 +55,16 @@ export const auth = betterAuth({
         type: "string",
         required: false,
       },
+      role: { // Added role
+        type: "string",
+        required: false,
+      },
       isAdmin: {
         type: "boolean",
+        required: false,
+      },
+      location: { // Added location
+        type: "string",
         required: false,
       },
     },

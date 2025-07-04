@@ -2,13 +2,41 @@ import express from 'express';
 import { pool } from '../db/schema';
 import { ResultSetHeader } from 'mysql2';
 import { User } from '../types/db';
+import { verifySession } from '../utils/verifySession';
 
 const router = express.Router();
 
+// List of user fields as per schema/interface (excluding id, created_at, updated_at for insert)
+const userFields = [
+  'name', 'lastName', 'age', 'profession', 'biography', 'facebook', 'twitter', 'instagram',
+  'email', 'email_verified', 'image', 'phone', 'wallet_address', 'role', 'is_admin', 'is_active'
+];
+
+// Utility: pick only allowed fields from an object
+function pickUserFields(obj: any) {
+  const result: any = {};
+  for (const key of userFields) {
+    if (typeof obj[key] !== 'undefined') result[key] = obj[key];
+  }
+  return result;
+}
+
+// Utility: generate SQL placeholders and values for insert/update
+function getInsertPlaceholders(fields: string[]) {
+  return fields.map(() => '?').join(', ');
+}
+function getUpdateAssignments(fields: string[]) {
+  return fields.map(f => `${f} = ?`).join(', ');
+}
+
 router.get('/', async (req, res) => {
+  const session = await verifySession(req, res);
+  console.log(session);
+  if (!session) return;
+
   try {
     const [rows] = await pool.query<User[]>(
-      'SELECT id, name, last_name, email, wallet_address, is_admin, is_active, created_at FROM users'
+      `SELECT * FROM user`
     );
     res.json(rows);
   } catch (error) {
@@ -18,9 +46,12 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
+  const session = await verifySession(req, res);
+  if (!session) return;
+
   try {
     const [rows] = await pool.query<User[]>(
-      'SELECT id, name, last_name, email, wallet_address, is_admin, is_active, created_at FROM users WHERE id = ?',
+      `SELECT id, name, lastName, age, profession, biography, facebook, twitter, instagram, email, email_verified, image, phone, wallet_address, role, is_admin, is_active, created_at, updated_at FROM user WHERE id = ?`,
       [req.params.id]
     );
 
@@ -36,28 +67,29 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { name, lastName, age, profession, email, phone, password, walletAddress, isAdmin } = req.body;
+  const session = await verifySession(req, res);
+  if (!session) return;
 
-  if (!name || !lastName || !age || !email || !password) {
+  const userData = pickUserFields(req.body);
+
+  // Required fields check (customize as needed)
+  if (!userData.name || !userData.lastName || !userData.age || !userData.email || typeof userData.email_verified === 'undefined') {
     return res.status(400).json({ error: 'Required fields are missing' });
   }
 
   try {
+    const fields = userFields;
+    const placeholders = getInsertPlaceholders(fields);
+    const values = fields.map(f => userData[f] ?? null);
+
     const [result] = await pool.query<ResultSetHeader>(
-      'INSERT INTO users (name, last_name, age, profession, email, phone, password_hash, wallet_address, is_admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [name, lastName, age, profession, email, phone, password, walletAddress, isAdmin || false]
+      `INSERT INTO user (id, ${fields.join(', ')}, created_at, updated_at) VALUES (UUID(), ${placeholders}, NOW(), NOW())`,
+      values
     );
 
     res.status(201).json({
       id: result.insertId,
-      name,
-      lastName,
-      age,
-      profession,
-      email,
-      phone,
-      walletAddress,
-      isAdmin: isAdmin || false,
+      ...userData
     });
   } catch (error) {
     console.error('Error creating user:', error);
@@ -66,23 +98,29 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  const { name, lastName, email, walletAddress, isAdmin, isActive } = req.body;
+  const session = await verifySession(req, res);
+  if (!session) return;
+
+  const userData = pickUserFields(req.body);
   const userId = req.params.id;
 
   try {
+    const fields = Object.keys(userData);
+    if (fields.length === 0) {
+      return res.status(400).json({ error: 'No fields to update' });
+    }
+    const assignments = getUpdateAssignments(fields);
+    const values = fields.map(f => userData[f]);
+    values.push(userId);
+
     await pool.query(
-      'UPDATE users SET name = ?, last_name = ?, email = ?, wallet_address = ?, is_admin = ?, is_active = ? WHERE id = ?',
-      [name, lastName, email, walletAddress, isAdmin, isActive, userId]
+      `UPDATE user SET ${assignments}, updated_at = NOW() WHERE id = ?`,
+      values
     );
 
-    res.json({ 
-      id: userId, 
-      name, 
-      lastName, 
-      email, 
-      walletAddress, 
-      isAdmin, 
-      isActive 
+    res.json({
+      id: userId,
+      ...userData
     });
   } catch (error) {
     console.error('Error updating user:', error);
@@ -91,8 +129,11 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
+  const session = await verifySession(req, res);
+  if (!session) return;
+
   try {
-    const [result] = await pool.query<ResultSetHeader>('DELETE FROM users WHERE id = ?', [
+    const [result] = await pool.query<ResultSetHeader>('DELETE FROM user WHERE id = ?', [
       req.params.id,
     ]);
 
@@ -104,6 +145,36 @@ router.delete('/:id', async (req, res) => {
   } catch (error) {
     console.error('Error deleting user:', error);
     res.status(500).json({ error: 'Error deleting user' });
+  }
+});
+
+router.get('/top-users/:count', async (req, res) => {
+  const session = await verifySession(req, res);
+  if (!session) return;
+
+  const count = parseInt(req.params.count, 10);
+
+  if (isNaN(count) || count <= 0) {
+    return res.status(400).json({ error: 'Invalid count parameter' });
+  }
+
+  try {
+    const [rows] = await pool.query(`
+      SELECT 
+        u.*, 
+        AVG(r.rating) AS rating
+      FROM review r
+      JOIN invoice i ON r.invoiceNumber = i.invoiceNumber
+      JOIN user u ON i.userId = u.id
+      GROUP BY u.id
+      ORDER BY rating DESC
+      LIMIT ?
+    `, [count]);
+
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching top rated users:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 

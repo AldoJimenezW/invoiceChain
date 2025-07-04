@@ -81,15 +81,15 @@ export default function EditProfile() {
       <div className='flex justify-between items-center mb-6'>
         <h1 className='text-2xl font-bold text-white'>Edit Profile</h1>
         <Link href='/dashboard/profile'>
-          <Button variant='outline' size='sm' className='border-indigo-200'>
+          <Button variant='outline' size='sm' className='border-blue-200'>
             Cancel
           </Button>
         </Link>
       </div>
 
-      <Card className='border-indigo-200 max-w-2xl mx-auto'>
+      <Card className='border-blue-200 max-w-2xl mx-auto'>
         <CardHeader>
-          <CardTitle className='text-xl font-bold text-indigo-700 flex items-center'>
+          <CardTitle className='text-xl font-bold text-blue-700 flex items-center'>
             <User className='mr-2 h-5 w-5' />
             Personal Information
           </CardTitle>
@@ -104,7 +104,7 @@ export default function EditProfile() {
                     src={avatarPreview || '/placeholder.svg?height=96&width=96'}
                     alt='Profile'
                   />
-                  <AvatarFallback className='bg-indigo-100 text-indigo-700 text-xl'>
+                  <AvatarFallback className='bg-blue-100 text-blue-700 text-xl'>
                     {form
                       .watch('name')
                       ?.split(' ')
@@ -116,7 +116,7 @@ export default function EditProfile() {
 
                 <div className='flex items-center justify-center'>
                   <label htmlFor='avatar' className='cursor-pointer'>
-                    <div className='px-4 py-2 bg-indigo-100 text-indigo-700 rounded-md text-sm font-medium hover:bg-indigo-200 transition-colors'>
+                    <div className='px-4 py-2 bg-blue-100 text-blue-700 rounded-md text-sm font-medium hover:bg-blue-200 transition-colors'>
                       Change Avatar
                     </div>
                     <input
@@ -147,7 +147,7 @@ export default function EditProfile() {
                       <Input
                         placeholder='John Doe'
                         {...field}
-                        className='border-indigo-200 focus-visible:ring-indigo-500'
+                        className='border-blue-200 focus-visible:ring-blue-500'
                       />
                     </FormControl>
                     <FormMessage />
@@ -173,7 +173,7 @@ export default function EditProfile() {
                         type='email'
                         placeholder='name@example.com'
                         {...field}
-                        className='border-indigo-200 focus-visible:ring-indigo-500'
+                        className='border-blue-200 focus-visible:ring-blue-500'
                       />
                     </FormControl>
                     <FormMessage />
@@ -191,7 +191,7 @@ export default function EditProfile() {
                       <textarea
                         placeholder='Tell us about yourself'
                         {...field}
-                        className='flex min-h-[80px] w-full rounded-md border border-indigo-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
+                        className='flex min-h-[80px] w-full rounded-md border border-blue-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
                       />
                     </FormControl>
                     <FormMessage />
@@ -204,14 +204,14 @@ export default function EditProfile() {
                   <Button
                     type='button'
                     variant='outline'
-                    className='border-indigo-200'
+                    className='border-blue-200'
                   >
                     Cancel
                   </Button>
                 </Link>
                 <Button
                   type='submit'
-                  className='bg-indigo-600 hover:bg-indigo-700'
+                  className='bg-blue-600 hover:bg-blue-700'
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (

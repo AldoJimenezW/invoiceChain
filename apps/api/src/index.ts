@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { initDb } from './db/schema';
+import { initDb, seedDb } from './db/schema'; // Import seedDb
 import usersRoutes from './api/users';
 import transactionsRoutes from './api/transactions';
 import invoicesRoutes from './api/invoices';
@@ -18,14 +18,12 @@ const PORT_WEB = process.env.PORT_WEB || 3000;
 const allowedOrigins = [
   `http://${HOST}:${PORT_WEB}`,
   'http://localhost:3000',
-  // Add more origins as needed
 ];
 
 // Use a function to check the origin
 app.use(cors({
   credentials: true,
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps, curl, etc.)
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
@@ -71,6 +69,10 @@ const startServer = async () => {
     // Comentar para NO crear la base de datos - RD
     await initDb();
     console.log('Database initialized');
+
+    // Comentar para NO poblar la base de datos - RD
+    await seedDb();
+    console.log('Database seeded');
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);

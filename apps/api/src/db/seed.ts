@@ -12,4 +12,4 @@ async function seed() {
 }
 
 // Descomentar para poblar la base de datos - RD
-// seed();
+seed();

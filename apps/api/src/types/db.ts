@@ -3,17 +3,24 @@ import { RowDataPacket } from 'mysql2';
 export interface User extends RowDataPacket {
   id: string;
   name: string;
-  lastName: string;
+  last_name: string;
   age: number;
   profession: string | null;
+  biography: string | null;
+  facebook: string | null;
+  twitter: string | null;
+  instagram: string | null;
   email: string;
-  emailVerified: boolean;
+  email_verified: boolean;
   image: string | null;
   phone: string | null;
-  walletAddress: string | null;
-  isAdmin: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  wallet_address: string | null;
+  role: string | null;
+  is_admin: boolean;
+  is_active: boolean;
+  created_at: Date;
+  updated_at: Date;
+  location: string | null; // Added location
 }
 
 export interface Transaction extends RowDataPacket {
@@ -62,7 +69,7 @@ export interface Craft extends RowDataPacket {
 
 export interface Review extends RowDataPacket {
   id: number;
-  txHash: string;
+  invoiceNumber: string;
   fromAddress: string;
   toAddress: string;
   rating: number;
