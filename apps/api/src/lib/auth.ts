@@ -17,6 +17,22 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true
   },
+  advanced: {
+    crossSubDomainCookies: {
+      enabled: true,
+      domain: ".dishei.xyz",
+    },
+    cookies: {
+      session_token: {
+        attributes: {
+          name: 'better-auth.session_token',
+          httpOnly: true,
+          secure: true,         // ✅ required for HTTPS
+          sameSite: 'none',     // ✅ required for cross-domain        }
+        },
+      }
+    },
+  },
   user: {
     additionalFields: {
       lastName: {

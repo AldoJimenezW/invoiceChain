@@ -19,13 +19,14 @@ export function middleware(request: NextRequest) {
 
   // Redirect authenticated users away from auth pages
   if (isPublicPath && hasSession) {
+    console.log(isPublicPath)
+
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
   // Redirect unauthenticated users to login
   if (!isPublicPath && !hasSession) {
     // Store the original path to redirect back after login
-    console.log("redirected")
     const redirectUrl = new URL('/auth/signin', request.url)
     redirectUrl.searchParams.set('callbackUrl', path)
     return NextResponse.redirect(redirectUrl)

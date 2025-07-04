@@ -24,6 +24,7 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   const { data, refetch } = useSession() // Get update function from useSession
+  console.log(data)
 
   const router = useRouter()
   const pathname = usePathname()
