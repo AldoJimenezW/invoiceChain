@@ -19,6 +19,7 @@ const PORT_WEB = process.env.PORT_WEB || 3000;
 const allowedOrigins = [
   `http://${HOST}:${PORT_WEB}`,
   'http://localhost:3000',
+  'https://invoicechain.dishei.xyz'
 ];
 
 // Use a function to check the origin

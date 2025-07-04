@@ -69,5 +69,5 @@ export const auth = betterAuth({
       },
     },
   },
-  trustedOrigins: [`http://${process.env.DB_HOST}:${process.env.PORT_WEB}`, "http://localhost:3000", "http://192.168.1.128:3000"],
+  trustedOrigins: [`http://${process.env.DB_HOST}:${process.env.PORT_WEB}`, "http://localhost:3000", "http://192.168.1.128:3000", "https://invoicechain.dishei.xyz"],
 });
