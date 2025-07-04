@@ -50,7 +50,7 @@ router.get('/:id', async (req, res) => {
 
   try {
     const [rows] = await pool.query<User[]>(
-      `SELECT id, name, lastName, age, profession, biography, facebook, twitter, instagram, email, email_verified, image, phone, wallet_address, role, is_admin, is_active, created_at, updated_at FROM user WHERE id = ?`,
+      `SELECT id, name, lastName, age, profession, biography, facebook, twitter, instagram, image, phone, role, createdAt FROM user WHERE id = ?`,
       [req.params.id]
     );
 
@@ -64,6 +64,26 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: 'Error fetching user' });
   }
 });
+
+router.get('/getUserIdByCardId/:id', async (req, res) => {
+  try {
+    // Assuming a 'card' table exists with 'id' and 'userId' columns
+    const row = await pool.query<User[]>(
+      `SELECT u.id
+       FROM user u
+       JOIN card c ON u.id = c.userId
+       WHERE c.id = ?`,
+      [req.params.id] // req.params.id is the card ID
+    );
+
+
+    res.json(row[0]);
+  } catch (error) {
+    console.error('Error fetching user by card ID:', error);
+    res.status(500).json({ error: 'Error fetching user by card ID' });
+  }
+});
+
 
 router.post('/', async (req, res) => {
   const session = await verifySession(req, res);
@@ -193,7 +213,7 @@ router.get('/top-users/:count', async (req, res) => {
         u.*, 
         AVG(r.rating) AS rating
       FROM review r
-      JOIN invoice i ON r.invoiceNumber = i.invoiceNumber
+      JOIN invoice i ON r.toAddress = i.invoiceNumber
       JOIN user u ON i.userId = u.id
       GROUP BY u.id
       ORDER BY rating DESC

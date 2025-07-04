@@ -1,10 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import Link from 'next/link' // Import Link
 import {
   Card,
-  CardContent
 } from '~/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
 import EmblaCarousel from '~/components/ui/EmblaCarousel'
@@ -14,7 +13,7 @@ import { useDashboardData } from '~/hooks/useDashboardData'
 
 export default function Dashboard() {
   const [bestRatedUsers, setBestRatedUsers] = useState<{ id: number, image: string, name: string, rating: number, profession: string, biography: string }[]>([])
-  const [cards, setCards] = useState<{ id: number, image: string, title: string, description: string }[]>([])
+  const [cards, setCards] = useState<{ id: number, userId: string, image: string, title: string, description: string }[]>([])
   const OPTIONS: EmblaOptionsType = { loop: true }
   const { data, loading, error } = useDashboardData(5);
 
@@ -28,12 +27,12 @@ export default function Dashboard() {
   const cardSlides = cards.map((card) => (
     <Card
       key={card.id}
-      className="flex flex-row items-center backdrop-blur-md bg-black/40 border border-gray-700 rounded-xl w-[50rem] h-60 shadow-md"
+      className="flex flex-row items-center backdrop-blur-md bg-black/40 border border-gray-700 rounded-xl w-[55rem] h-70 shadow-md"
     >
       {/* Left side: Image */}
       <div className="flex items-center justify-center w-1/3">
-        <Avatar className="h-40 w-40 ring-2 ring-blue-500">
-          <AvatarImage src={card.image} alt="avatar" />
+        <Avatar className="h-50 w-50 ring-2 ring-blue-500">
+          <AvatarImage src={card.image} alt="avatar" className="object-cover" />
           <AvatarFallback className="bg-blue-700 text-white font-bold text-2xl">
             {card.title
               .split(' ')
@@ -45,22 +44,22 @@ export default function Dashboard() {
       </div>
 
       {/* Right side: Content */}
-      <div className="flex flex-col justify-between w-2/3 h-full pr-4">
+      <div className="flex flex-col justify-between w-2/3 h-full pr-6 pb-2">
         <div>
           <h3 className="text-2xl font-semibold text-white mb-2 truncate">
             {card.title}
           </h3>
-          <p className="text-gray-300 text-sm line-clamp-3">{card.description}</p>
+          <p className="text-gray-300 text-sm line-clamp-6">{card.description}</p>
         </div>
-        <button className=" bg-blue-600 hover:bg-blue-500 transition-colors text-white text-sm font-medium py-2 px-4 rounded-md shadow">
-          Get in touch
-        </button>
+        {/* Wrap button with Link */}
+        <Link href={`/user/${card.userId}`}>
+          <button className=" bg-blue-600 hover:bg-blue-500 transition-colors text-white text-sm font-medium py-2 px-4 rounded-md shadow">
+            Get in touch
+          </button>
+        </Link>
       </div>
     </Card>
-
-
-
-  ))
+  ));
 
   return (
     <div>
@@ -95,7 +94,7 @@ export default function Dashboard() {
                   </div>
 
                   <div className="flex items-center space-x-1 text-yellow-300">
-                    <Star className="w-5 h-5 fill-yellow-300" />
+                    <Star className="w-5 h-5 fill-yellow-500 text-yellow-500" />
                     <span className="text-sm font-medium">{user.rating}/5</span>
                   </div>
 

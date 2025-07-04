@@ -6,6 +6,7 @@ import transactionsRoutes from './api/transactions';
 import invoicesRoutes from './api/invoices';
 import cardsRoutes from './api/cards';
 import reviewsRoutes from './api/reviews';
+import craftsRoutes from './api/crafts';
 import { toNodeHandler, fromNodeHeaders } from "better-auth/node";
 import { auth } from './lib/auth';
 
@@ -39,6 +40,7 @@ app.use('/api/users', usersRoutes);
 app.use('/api/transactions', transactionsRoutes);
 app.use('/api/invoices', invoicesRoutes);
 app.use('/api/cards', cardsRoutes);
+app.use('/api/crafts', craftsRoutes);
 app.use('/api/reviews', reviewsRoutes);
 
 // Ruta básica

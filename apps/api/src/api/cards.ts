@@ -19,7 +19,7 @@ router.get('/:amount', async (req, res) => {
   }
 
   try {
-    const [rows] = await pool.query<Card[]>('SELECT * FROM cards LIMIT ?', [amount]);
+    const [rows] = await pool.query<Card[]>('SELECT * FROM card LIMIT ?', [amount]);
     res.json(rows);
   } catch (error) {
     console.error('Error fetching cards:', error);
@@ -42,7 +42,7 @@ router.get('/with-image/:amount', async (req, res) => {
   try {
     // Fetch cards associated with users who have an image
     const [rows] = await pool.query<Card[]>(
-      'SELECT c.*, u.image FROM card c JOIN user u ON c.userId = u.id WHERE u.image IS NOT NULL LIMIT ?',
+      'SELECT c.*, u.image FROM card c JOIN user u ON c.userId = u.id LIMIT ?',
       [amount]
     );
     res.json(rows);
@@ -54,10 +54,10 @@ router.get('/with-image/:amount', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const { userId, title, description } = req.body;
-
+  console.log(userId, title, description)
   try {
     const [result] = await pool.query<ResultSetHeader>(
-      'INSERT INTO cards (user_id, title, description) VALUES (?, ?, ?)',
+      'INSERT INTO card (userId, title, description) VALUES (?, ?, ?)',
       [userId, title, description]
     );
 
@@ -72,5 +72,6 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: 'Error creating card' });
   }
 });
+
 
 export default router;

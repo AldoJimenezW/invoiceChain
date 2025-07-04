@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { usePathname, useRouter } from 'next/navigation'
-import { Home, LogOut, User, Shield, Users, Search } from 'lucide-react' // Added Search icon
+import { Home, LogOut, User, Shield, Users, Search, IdCard } from 'lucide-react' // Added Search icon
 import { Button } from '~/components/ui/button'
 import { Badge } from '~/components/ui/badge'
 import {
@@ -23,7 +23,7 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode
 }) {
-  const { data } = useSession() // Get update function from useSession
+  const { data, refetch } = useSession() // Get update function from useSession
 
   const router = useRouter()
   const pathname = usePathname()
@@ -81,11 +81,13 @@ export default function DashboardLayout({
         throw new Error('Failed to update role');
       } else {
         console.log('Role updated successfully');
+        // Refetch session data to update the UI based on the new role
+        await refetch();
         // Navigate to the appropriate dashboard based on the role
         if (role === 'creator') {
-          router.push('/dashboard/creator');
+          router.push('/dashboard/create-card');
         } else if (role === 'customer') {
-          router.push('/dashboard/customer');
+          router.push('/dashboard');
         }
       }
     } catch (err) {
@@ -190,7 +192,7 @@ export default function DashboardLayout({
                           variant='ghost'
                           size='icon'
                           className={`rounded-full ${isActive('/dashboard/profile') || isActive('/dashboard/change-password')
-                            ? 'text-indigo-700 font-medium'
+                            ? 'text-indigo-700 font-medium hover:bg-blue-400'
                             : 'text-gray-600 hover:text-indigo-600 hover:bg-blue-400'
                             }`}
                         >
@@ -222,6 +224,15 @@ export default function DashboardLayout({
                             <span>Settings</span>
                           </Link>
                         </DropdownMenuItem>
+                        {/* New 'Create Card' item, visible only to creators */}
+                        {data?.user?.role === 'creator' && (
+                          <DropdownMenuItem asChild>
+                            <Link href='/dashboard/create-card'>
+                              <IdCard className='mr-2 h-4 w-4' />
+                              <span>Create Card</span>
+                            </Link>
+                          </DropdownMenuItem>
+                        )}
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={handleLogout}>
                           <LogOut className='mr-2 h-4 w-4' />

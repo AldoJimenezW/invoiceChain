@@ -216,11 +216,11 @@ export async function seedDb() {
       await connection.query(`
         INSERT INTO invoice (invoiceNumber, userId, clientName, amount, status, dueDate, contractAddress, txHash)
         VALUES
-          ('INV-2025-001', '${user1Id}', 'Client A', 1500.00, 'PAID', '2025-04-15', '0x9876543210987654321098765432109876543210', '0xabc123'),
-          ('INV-2025-002', '${user2Id}', 'Client B', 2200.50, 'PENDING', '2025-04-30', NULL, NULL),     
-          ('INV-2025-003', '${user3Id}', 'Client D', 1700.00, 'PAID', '2025-04-30', '0xcontract4', '0xtx4'),
-          ('INV-2025-004', '${user4Id}', 'Client E', 900.00, 'PAID', '2025-05-05', '0xcontract5', '0xtx5'),
-          ('INV-2025-005', '${adminUserId}', 'Client C', 3750.75, 'OVERDUE', '2025-03-15', NULL, NULL)
+          ('${user1Wallet}', '${user1Id}', 'Client A', 1500.00, 'PAID', '2025-04-15', '0x9876543210987654321098765432109876543210', '0xabc123'),
+          ('${user2Wallet}', '${user2Id}', 'Client B', 2200.50, 'PENDING', '2025-04-30', NULL, NULL),     
+          ('${user3Wallet}', '${user3Id}', 'Client D', 1700.00, 'PAID', '2025-04-30', '0xcontract4', '0xtx4'),
+          ('${user4Wallet}', '${user4Id}', 'Client E', 900.00, 'PAID', '2025-05-05', '0xcontract5', '0xtx5'),
+          ('${adminWallet}', '${adminUserId}', 'Client C', 3750.75, 'OVERDUE', '2025-03-15', NULL, NULL)
       `);
 
       // Seed cards
@@ -236,25 +236,27 @@ export async function seedDb() {
       await connection.query(`
         INSERT INTO craft (userId, title, description, image)
         VALUES
-          ('${adminUserId}', 'Handmade Pottery', 'Beautiful ceramic vase', 'pottery1.jpg'),
-          ('${user1Id}', 'Knitted Scarf', 'Warm winter accessory', 'scarf1.jpg'),
-          ('${user2Id}', 'Wooden Sculpture', 'Hand-carved wooden art piece', 'sculpture1.jpg')
+          ('${adminUserId}', 'Handmade Pottery', 'Beautiful ceramic vase', 'https://cdn.dishei.xyz/pottery1.jpg'),
+          ('${user1Id}', 'Handmade Pottery', 'Beautiful ceramic vase', 'https://cdn.dishei.xyz/pottery1.jpg'),
+          ('${user1Id}', 'Knitted Scarf', 'Warm winter accessory', 'https://cdn.dishei.xyz/scarf1.jpg'),
+          ('${user1Id}', 'Knitted Scarf', 'Warm winter accessory', 'https://cdn.dishei.xyz/scarf1.jpg'),
+          ('${user2Id}', 'Wooden Sculpture', 'Hand-carved wooden art piece', 'https://cdn.dishei.xyz/sculpture1.jpg')
       `);
 
       // Seed reviews
       await connection.query(`
         INSERT INTO review (invoiceNumber, fromAddress, toAddress, rating, comment)
         VALUES
-          ('INV-2025-001', '${adminWallet}', '${user1Wallet}', 5, 'Excellent service and prompt payment!'),
-          ('INV-2025-001', '${user2Wallet}', '${user1Wallet}', 4, 'Smooth transaction, good communication.'),
-          ('INV-2025-002', '${adminWallet}', '${user2Wallet}', 3, 'Invoice is pending, hoping for timely payment.'),
-          ('INV-2025-002', '${user1Wallet}', '${user2Wallet}', 4, 'Client B is usually reliable.'),
-          ('INV-2025-003', '${user1Wallet}', '${adminWallet}', 2, 'Payment is overdue, needs follow-up.'),
-          ('INV-2025-005', '${user2Wallet}', '${adminWallet}', 1, 'Significant delay in payment.'),
-          ('INV-2025-001', '${user1Wallet}', '${adminWallet}', 5, 'Received payment quickly.'),
-          ('INV-2025-004', '${user2Wallet}', '${user1Wallet}', 3, 'Waiting for payment on this one.'),
-          ('INV-2025-003', '${adminWallet}', '${user2Wallet}', 2, 'Still no payment received.'),
-          ('INV-2025-002', '${user2Wallet}', '${user1Wallet}', 5, 'Highly recommend this service!')
+          ('${adminWallet}', '${adminWallet}', '${user1Wallet}', 5, 'Excellent service and prompt payment!'),
+          ('${user2Wallet}', '${user2Wallet}', '${user1Wallet}', 4, 'Smooth transaction, good communication.'),
+          ('${adminWallet}', '${adminWallet}', '${user2Wallet}', 3, 'Invoice is pending, hoping for timely payment.'),
+          ('${user4Wallet}', '${user4Wallet}', '${user2Wallet}', 4, 'Client B is usually reliable.'),
+          ('${user1Wallet}', '${user1Wallet}', '${adminWallet}', 2, 'Payment is overdue, needs follow-up.'),
+          ('${user2Wallet}', '${user2Wallet}', '${user4Wallet}', 1, 'Significant delay in payment.'),
+          ('${user1Wallet}', '${user1Wallet}', '${user4Wallet}', 5, 'Received payment quickly.'),
+          ('${user2Wallet}', '${user2Wallet}', '${user1Wallet}', 3, 'Waiting for payment on this one.'),
+          ('${user3Wallet}', '${adminWallet}', '${user3Wallet}', 2, 'Still no payment received.'),
+          ('${adminWallet}', '${adminWallet}', '${adminWallet}', 5, 'Highly recommend this service!')
       `);
 
 

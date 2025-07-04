@@ -6,6 +6,11 @@ export const getTopUsers = async (amount: number) => {
   return res.data;
 };
 
+export const getUser = async (id: string) => {
+  const res = await Axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`);
+  return res.data;
+};
+
 // export const updateUserProfile = async (data: UserProfileUpdateDto) => {
 //   const res = await axios.put('/users/profile', data);
 //   return res.data;
